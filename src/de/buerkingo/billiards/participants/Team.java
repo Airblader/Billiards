@@ -5,4 +5,9 @@ package de.buerkingo.billiards.participants;
  */
 public class Team implements Identity {
 
+    @Override
+    public String getName() {
+        return null;
+    }
+
 }

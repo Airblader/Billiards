@@ -6,4 +6,7 @@ package de.buerkingo.billiards.participants;
  */
 public interface Identity {
 
+    /** Return an identifying name for this identity. */
+    String getName();
+
 }

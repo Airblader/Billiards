@@ -5,4 +5,9 @@ package de.buerkingo.billiards.participants;
  */
 public class Person implements Identity {
 
+    @Override
+    public String getName() {
+        return null;
+    }
+
 }

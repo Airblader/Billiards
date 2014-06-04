@@ -3,6 +3,7 @@ package de.buerkingo.billiards.game.straight;
 import java.io.Serializable;
 
 import de.buerkingo.billiards.game.Game;
+import de.buerkingo.billiards.util.reject.Reject;
 
 /**
  * Manages a game of straight pool.
@@ -13,6 +14,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     @Override
     public void processEvent( StraightPoolEvent event ) {
+        Reject.ifNull( event );
+
         // TODO
     }
 

@@ -1,6 +1,7 @@
 * Straight Pool, 8-/9-/10-Ball, One Pocket, Bonus Ball
-* Player vs. Player, Team vs. Team, Player vs. Team
+* Player vs. Player, Team vs. Team, Player vs. Team, More than two parties playing
 * Different sets of rules for a single discipline
+* Loading rules from configuration files
 * Shot Clock
 * Sort games into events
 * Statistics

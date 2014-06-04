@@ -11,4 +11,5 @@ public class StraightPoolRack implements Rack, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static final int NUMBER_OF_BALLS = 15;
 }

@@ -20,7 +20,7 @@ public class StraightPoolEvent implements GameEvent, Serializable {
     /** The number of balls that are left on the table after this event. */
     public StraightPoolEvent withNumberOfBallsLeftInRack( int numberOfBallsLeftInRack ) {
         Reject.ifLessThan( numberOfBallsLeftInRack, 0 );
-        Reject.ifGreaterThan( numberOfBallsLeftInRack, 15 );
+        Reject.ifGreaterThan( numberOfBallsLeftInRack, StraightPoolRack.NUMBER_OF_BALLS );
 
         this.numberOfBallsLeftInRack = numberOfBallsLeftInRack;
         return this;

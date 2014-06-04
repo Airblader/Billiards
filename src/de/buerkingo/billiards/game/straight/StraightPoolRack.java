@@ -12,4 +12,12 @@ public class StraightPoolRack implements Rack, Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final int NUMBER_OF_BALLS = 15;
+
+    private int currentNumberOfBalls;
+
+    /** Returns the number of balls that are currently still on the table. */
+    public int getCurrentNumberOfBalls() {
+        return currentNumberOfBalls;
+    }
+
 }

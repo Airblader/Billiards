@@ -11,4 +11,9 @@ public class StraightPoolGame implements Game<StraightPoolGameEvent, StraightPoo
 
     private static final long serialVersionUID = 1L;
 
+    @Override
+    public void processEvent( StraightPoolGameEvent event ) {
+        // TODO
+    }
+
 }

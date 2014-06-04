@@ -7,12 +7,12 @@ import de.buerkingo.billiards.game.Game;
 /**
  * Manages a game of straight pool.
  */
-public class StraightPoolGame implements Game<StraightPoolGameEvent, StraightPoolRack>, Serializable {
+public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRack>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Override
-    public void processEvent( StraightPoolGameEvent event ) {
+    public void processEvent( StraightPoolEvent event ) {
         // TODO
     }
 

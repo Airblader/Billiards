@@ -16,10 +16,11 @@ public class Participants<T extends Participant> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final List<T> participants = newArrayList();
-    private final int numberOfParticipants = 2;
+    private int numberOfParticipants;
     private int activeParticipant;
 
     public T get( int participantIndex ) {
+        Reject.ifEmpty( "participants have not yet been set", participants );
         Reject.ifLessThan( participantIndex, 0 );
         Reject.ifGreaterThan( format( "cannot get participant #%d, there are only %d participants", participantIndex, numberOfParticipants ),
             participantIndex, numberOfParticipants - 1 );
@@ -37,9 +38,10 @@ public class Participants<T extends Participant> implements Serializable {
     }
 
     public Participants<T> setParticipants( T... participants ) {
-        Reject.ifNotEmpty( this.participants );
-        Reject.ifNotEqual( participants.length, numberOfParticipants );
+        Reject.ifNull( participants );
+        Reject.ifNotEmpty( "can only set participants once", this.participants );
 
+        numberOfParticipants = participants.length;
         for( T participant : participants ) {
             this.participants.add( participant );
         }

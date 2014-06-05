@@ -12,11 +12,18 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     private static final long serialVersionUID = 1L;
 
+    private final StraightPoolRack rack = new StraightPoolRack();
+
     @Override
     public void processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
 
         // TODO
+    }
+
+    @Override
+    public StraightPoolRack getRack() {
+        return rack;
     }
 
 }

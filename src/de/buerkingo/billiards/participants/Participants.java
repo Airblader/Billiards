@@ -15,8 +15,9 @@ public class Participants<T extends Participant> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final int numberOfParticipants = 2;
     private final List<T> participants = newArrayList();
+    private final int numberOfParticipants = 2;
+    private int activeParticipant;
 
     public T get( int participantIndex ) {
         Reject.ifLessThan( participantIndex, 0 );
@@ -25,4 +26,14 @@ public class Participants<T extends Participant> implements Serializable {
 
         return participants.get( participantIndex );
     }
+
+    public T getActiveParticipant() {
+        return get( activeParticipant );
+    }
+
+    /** Triggers a turn, i.e. control will switch to the next player. */
+    public void turn() {
+        activeParticipant = ( activeParticipant == numberOfParticipants - 1 ) ? 0 : activeParticipant + 1;
+    }
+
 }

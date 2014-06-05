@@ -5,6 +5,15 @@ import org.junit.Test;
 public class StraightPoolGameTest {
 
     @Test
+    public void givenGameWhenEventIsProcessedThenControlPasses() {
+        StraightPoolGame game = createGame();
+
+        game.processEvent( new StraightPoolEvent() );
+
+        // TODO add assertions
+    }
+
+    @Test
     public void givenGameWhenPlayerScoresNoPointsThenPointsAreUnchanged() {
         StraightPoolGame game = createGame();
         StraightPoolEvent event = new StraightPoolEvent()

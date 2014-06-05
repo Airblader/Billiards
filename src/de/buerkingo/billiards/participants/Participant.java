@@ -6,4 +6,7 @@ package de.buerkingo.billiards.participants;
  */
 public interface Participant {
 
+    /** Get the identity of this participant. */
+    Identity getIdentity();
+
 }

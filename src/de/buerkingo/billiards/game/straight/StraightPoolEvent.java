@@ -32,6 +32,11 @@ public class StraightPoolEvent implements GameEvent, Serializable {
         return this;
     }
 
+    @Override
+    public boolean isTurn() {
+        return true;
+    }
+
     public int getNumberOfBallsLeftInRack() {
         return numberOfBallsLeftInRack;
     }

@@ -3,19 +3,18 @@ package de.buerkingo.billiards.game.straight;
 import java.io.Serializable;
 
 import de.buerkingo.billiards.game.Game;
-import de.buerkingo.billiards.participants.Participant;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
 
 /**
  * Manages a game of straight pool.
  */
-public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRack, Participant>, Serializable {
+public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRack, StraightPoolParticipant>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private final StraightPoolRack rack = new StraightPoolRack();
-    private final Participants<Participant> participants = new Participants<Participant>();
+    private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
     @Override
     public void processEvent( StraightPoolEvent event ) {
@@ -30,7 +29,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     }
 
     @Override
-    public Participants<Participant> getParticipants() {
+    public Participants<StraightPoolParticipant> getParticipants() {
         return participants;
     }
 

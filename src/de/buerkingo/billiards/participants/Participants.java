@@ -36,4 +36,15 @@ public class Participants<T extends Participant> implements Serializable {
         activeParticipant = ( activeParticipant == numberOfParticipants - 1 ) ? 0 : activeParticipant + 1;
     }
 
+    public Participants<T> setParticipants( T... participants ) {
+        Reject.ifNotEmpty( this.participants );
+        Reject.ifNotEqual( participants.length, numberOfParticipants );
+
+        for( T participant : participants ) {
+            this.participants.add( participant );
+        }
+
+        return this;
+    }
+
 }

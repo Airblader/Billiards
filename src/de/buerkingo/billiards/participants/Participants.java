@@ -11,14 +11,14 @@ import de.buerkingo.billiards.util.reject.Reject;
 /**
  * Holds and manages the list of participants in a game.
  */
-public class Participants implements Serializable {
+public class Participants<T extends Participant> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private final int numberOfParticipants = 2;
-    private final List<Participant> participants = newArrayList();
+    private final List<T> participants = newArrayList();
 
-    public Participant get( int participantIndex ) {
+    public T get( int participantIndex ) {
         Reject.ifLessThan( participantIndex, 0 );
         Reject.ifGreaterThan( format( "cannot get participant #%d, there are only %d participants", participantIndex, numberOfParticipants ),
             participantIndex, numberOfParticipants - 1 );

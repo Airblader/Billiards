@@ -38,11 +38,19 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             return true;
         }
 
+        if( hadAtLeastOneShotWithoutFoul( event ) ) {
+            participants.getActiveParticipant().resetConsecutiveFouls();
+        }
+
         if( isTurn ) {
             participants.turn();
         }
 
         return false;
+    }
+
+    private boolean hadAtLeastOneShotWithoutFoul( StraightPoolEvent event ) {
+        return getScoredPoints( event ) > 0;
     }
 
     private boolean activeParticipantHasWon() {

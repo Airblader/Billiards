@@ -18,6 +18,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     private static final long serialVersionUID = 1L;
 
+    private static final int MAX_CONSECUTIVE_FOULS = 3;
+
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
@@ -31,7 +33,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         Reject.ifNull( event );
         events.add( event );
 
-        boolean isTurn = true;
+        boolean isTurn = false;
 
         participants.getActiveParticipant().addPoints( getEffectivelyScoredPoints( event ) );
         if( activeParticipantHasWon() ) {
@@ -42,8 +44,22 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             participants.getActiveParticipant().resetConsecutiveFouls();
         }
 
-        if( event.getFoul().isPresent() && event.getFoul().get().countsAsFoul() ) {
-            participants.getActiveParticipant().increaseConsecutiveFouls();
+        if( event.getFoul().isPresent() ) {
+            isTurn = true;
+
+            if( event.getFoul().get().countsAsFoul() ) {
+                participants.getActiveParticipant().increaseConsecutiveFouls();
+            }
+
+            if( participants.getActiveParticipant().getConsecutiveFouls() == MAX_CONSECUTIVE_FOULS ) {
+                // TODO constant
+                participants.getActiveParticipant().addPoints( -15 );
+                participants.getActiveParticipant().resetConsecutiveFouls();
+
+                // TODO rerack required
+            }
+        } else {
+            participants.getActiveParticipant().resetConsecutiveFouls();
         }
 
         if( isTurn ) {

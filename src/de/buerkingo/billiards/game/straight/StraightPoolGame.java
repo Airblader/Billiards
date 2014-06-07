@@ -33,7 +33,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         Reject.ifNull( event );
         events.add( event );
 
-        boolean isTurn = false;
+        // TODO should be false with more logic later
+        boolean isTurn = true;
 
         participants.getActiveParticipant().addPoints( getEffectivelyScoredPoints( event ) );
         if( activeParticipantHasWon() ) {

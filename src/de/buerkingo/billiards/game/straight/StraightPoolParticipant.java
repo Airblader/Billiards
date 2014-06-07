@@ -43,4 +43,9 @@ public class StraightPoolParticipant implements Participant, Serializable {
         return this;
     }
 
+    public StraightPoolParticipant resetConsecutiveFouls() {
+        consecutiveFouls = 0;
+        return this;
+    }
+
 }

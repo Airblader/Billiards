@@ -39,11 +39,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     }
 
     private int getEffectivelyScoredPoints( StraightPoolEvent event ) {
-        if( event.getNumberOfFinishedRacks() == 0 && event.getNumberOfBallsLeftInRack() == rack.getCurrentNumberOfBalls() ) {
-            return 0;
-        }
-
-        return 0;
+        return rack.getCurrentNumberOfBalls() - event.getNumberOfBallsLeftInRack();
     }
 
     @Override

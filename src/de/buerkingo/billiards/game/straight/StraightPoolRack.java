@@ -13,11 +13,16 @@ public class StraightPoolRack implements Rack, Serializable {
 
     public static final int NUMBER_OF_BALLS = 15;
 
-    private final int currentNumberOfBalls = NUMBER_OF_BALLS;
+    private int currentNumberOfBalls = NUMBER_OF_BALLS;
 
     /** Returns the number of balls that are currently still on the table. */
     public int getCurrentNumberOfBalls() {
         return currentNumberOfBalls;
+    }
+
+    public StraightPoolRack setCurrentNumberOfBalls( int currentNumberOfBalls ) {
+        this.currentNumberOfBalls = currentNumberOfBalls;
+        return this;
     }
 
 }

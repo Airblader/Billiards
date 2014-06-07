@@ -16,7 +16,6 @@ public class StraightPoolEvent implements GameEvent, Serializable {
     private static final long serialVersionUID = 1L;
 
     private int numberOfBallsLeftInRack;
-    private int numberOfFinishedRacks;
     private Optional<Foul> foul = Optional.absent();
 
     // TODO safeties
@@ -30,14 +29,6 @@ public class StraightPoolEvent implements GameEvent, Serializable {
         return this;
     }
 
-    /** The number of racks that were finished during this event. This equals the number of re-racks that took place. */
-    public StraightPoolEvent withNumberOfFinishedRacks( int numberOfFinishedRacks ) {
-        Reject.ifLessThan( numberOfFinishedRacks, 0 );
-
-        this.numberOfFinishedRacks = numberOfFinishedRacks;
-        return this;
-    }
-
     /** A foul that occurred at the end of this event. */
     public StraightPoolEvent withFoul( Foul foul ) {
         this.foul = Optional.fromNullable( foul );
@@ -46,11 +37,6 @@ public class StraightPoolEvent implements GameEvent, Serializable {
 
     public int getNumberOfBallsLeftInRack() {
         return numberOfBallsLeftInRack;
-    }
-
-    @Deprecated
-    public int getNumberOfFinishedRacks() {
-        return numberOfFinishedRacks;
     }
 
     public Optional<Foul> getFoul() {

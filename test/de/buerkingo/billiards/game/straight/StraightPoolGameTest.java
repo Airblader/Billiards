@@ -39,8 +39,7 @@ public class StraightPoolGameTest {
     @Test
     public void givenGameWhenPlayerScoresNoPointsThenPointsAreUnchanged() {
         StraightPoolEvent event = new StraightPoolEvent()
-            .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS )
-            .withNumberOfFinishedRacks( 0 );
+            .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS );
 
         game.processEvent( event );
 
@@ -50,12 +49,11 @@ public class StraightPoolGameTest {
 
     @Test
     @UseDataProvider( "provideEffectivelyScoredPoints" )
-    public void testGetEffectivelyScoredPoints( int ballsLeftBefore, int ballsLeftAfter, int racks, int expected ) {
+    public void testGetEffectivelyScoredPoints( int ballsLeftBefore, int ballsLeftAfter, int expected ) {
         game.getRack().setCurrentNumberOfBalls( ballsLeftBefore );
 
         StraightPoolEvent event = new StraightPoolEvent()
-            .withNumberOfBallsLeftInRack( ballsLeftAfter )
-            .withNumberOfFinishedRacks( racks );
+            .withNumberOfBallsLeftInRack( ballsLeftAfter );
 
         assertThat( game.getEffectivelyScoredPoints( event ) ).isEqualTo( expected );
     }
@@ -63,13 +61,9 @@ public class StraightPoolGameTest {
     @DataProvider
     public static Object[][] provideEffectivelyScoredPoints() {
         return new Object[][] {
-            { 15, 15, 0, 0 },
-            { 15, 10, 0, 5 },
-            { 10, 5, 0, 5 },
-            { 15, 15, 1, 15 },
-            { 15, 10, 1, 20 },
-            { 10, 5, 1, 20 },
-            { 8, 10, 2, 28 },
+            { 15, 15, 0 },
+            { 15, 10, 5 },
+            { 10, 5, 5 }
         };
     }
 

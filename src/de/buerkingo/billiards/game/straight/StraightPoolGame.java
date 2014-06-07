@@ -64,9 +64,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     }
 
     private int getScoredPoints( StraightPoolEvent event ) {
-        return rack.getCurrentNumberOfBalls()
-                + StraightPoolRack.NUMBER_OF_BALLS - event.getNumberOfBallsLeftInRack()
-                + StraightPoolRack.NUMBER_OF_BALLS * ( event.getNumberOfFinishedRacks() - 1 );
+        return rack.getCurrentNumberOfBalls() - event.getNumberOfBallsLeftInRack();
     }
 
     @Override

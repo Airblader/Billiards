@@ -13,6 +13,7 @@ public class StraightPoolParticipant implements Participant, Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Identity identity;
+    private int points = 0;
 
     public StraightPoolParticipant( Identity identity ) {
         this.identity = identity;
@@ -21,6 +22,15 @@ public class StraightPoolParticipant implements Participant, Serializable {
     @Override
     public Identity getIdentity() {
         return identity;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public StraightPoolParticipant addPoints( int points ) {
+        this.points += points;
+        return this;
     }
 
 }

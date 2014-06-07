@@ -27,7 +27,8 @@ public class StraightPoolGameTest {
     public void givenGameWhenPlayerScoresNoPointsThenPointsAreUnchanged() {
         StraightPoolGame game = createGame();
         StraightPoolEvent event = new StraightPoolEvent()
-            .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS );
+            .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS )
+            .withNumberOfFinishedRacks( 0 );
 
         game.processEvent( event );
 

@@ -40,7 +40,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
         participants.getActiveParticipant().addPoints( getEffectivelyScoredPoints( event ) );
         if( activeParticipantHasWon() ) {
-            return null; // TODO
+            // TODO add information about game being over
+            return new StraightPoolState( participants.getActiveParticipant(), false );
         }
 
         if( hadAtLeastOneShotWithoutFoul( event ) ) {
@@ -74,7 +75,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         }
 
         // TODO update rack
-        return null; // TODO
+        return new StraightPoolState( participants.getActiveParticipant(), requiresRerack );
     }
 
     private boolean hadAtLeastOneShotWithoutFoul( StraightPoolEvent event ) {

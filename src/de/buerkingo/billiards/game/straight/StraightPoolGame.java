@@ -19,6 +19,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     private static final long serialVersionUID = 1L;
 
     private static final int MAX_CONSECUTIVE_FOULS = 3;
+    private static final int CONSECUTIVE_FOUL_PENALTY = -15;
 
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
@@ -58,8 +59,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             }
 
             if( participants.getActiveParticipant().getConsecutiveFouls() == MAX_CONSECUTIVE_FOULS ) {
-                // TODO constant
-                participants.getActiveParticipant().addPoints( -15 );
+                participants.getActiveParticipant().addPoints( CONSECUTIVE_FOUL_PENALTY );
                 participants.getActiveParticipant().resetConsecutiveFouls();
 
                 requiresRerack = true;

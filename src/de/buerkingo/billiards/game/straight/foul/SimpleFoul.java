@@ -11,6 +11,10 @@ public class SimpleFoul implements Foul, Serializable {
 
     private final int pointsToDeduct;
 
+    public SimpleFoul() {
+        this( 1 );
+    }
+
     public SimpleFoul( int pointsToDeduct ) {
         this.pointsToDeduct = pointsToDeduct;
     }

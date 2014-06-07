@@ -1,6 +1,9 @@
 package de.buerkingo.billiards.game.straight;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.io.Serializable;
+import java.util.List;
 
 import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.participants.Participants;
@@ -15,14 +18,18 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
+    private final List<StraightPoolEvent> events = newArrayList();
 
     @Override
     public void processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
+        events.add( event );
 
         boolean isTurn = true;
         if( event.getNumberOfFinishedRacks() != 0 || event.getNumberOfBallsLeftInRack() < rack.getCurrentNumberOfBalls() ) {
-            // player has scored points
+            participants.getActiveParticipant().addPoints( 0 ); // TODO calculate points
+
+            // TODO determine win
         }
 
         if( isTurn ) {

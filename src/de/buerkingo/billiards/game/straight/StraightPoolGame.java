@@ -49,10 +49,12 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     @VisibleForTesting
     protected int getEffectivelyScoredPoints( StraightPoolEvent event ) {
+        int foulPoints = event.getFoul().isPresent() ? event.getFoul().get().getPointsToDeduct() : 0;
+
         return rack.getCurrentNumberOfBalls()
                 + StraightPoolRack.NUMBER_OF_BALLS - event.getNumberOfBallsLeftInRack()
                 + StraightPoolRack.NUMBER_OF_BALLS * ( event.getNumberOfFinishedRacks() - 1 )
-                - event.getFoul().or( NO_FOUL ).getPointsToDeduct();
+                - foulPoints;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package de.buerkingo.billiards.game.straight;
 
-import static de.buerkingo.billiards.game.straight.StraightPoolRack.NUMBER_OF_BALLS;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Before;
@@ -64,9 +63,13 @@ public class StraightPoolGameTest {
     @DataProvider
     public static Object[][] provideEffectivelyScoredPoints() {
         return new Object[][] {
-            { NUMBER_OF_BALLS, NUMBER_OF_BALLS, 0, 0 },
-            { NUMBER_OF_BALLS, 10, 0, 5 },
-            { 10, 5, 0, 5 }
+            { 15, 15, 0, 0 },
+            { 15, 10, 0, 5 },
+            { 10, 5, 0, 5 },
+            { 15, 15, 1, 15 },
+            { 15, 10, 1, 20 },
+            { 10, 5, 1, 20 },
+            { 8, 10, 2, 28 },
         };
     }
 

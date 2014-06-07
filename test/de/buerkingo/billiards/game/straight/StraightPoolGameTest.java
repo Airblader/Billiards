@@ -2,7 +2,6 @@ package de.buerkingo.billiards.game.straight;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -10,20 +9,8 @@ import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
-import de.buerkingo.billiards.participants.Person;
-
 @RunWith( DataProviderRunner.class )
-public class StraightPoolGameTest {
-
-    private static final String PLAYER_A = "Player A";
-    private static final String PLAYER_B = "Player B";
-
-    private StraightPoolGame game;
-
-    @Before
-    public void before() {
-        game = createGame();
-    }
+public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
     @Test
     public void givenGameWhenEventIsProcessedThenControlPasses() {
@@ -65,17 +52,6 @@ public class StraightPoolGameTest {
             { 15, 10, 5 },
             { 10, 5, 5 }
         };
-    }
-
-    private StraightPoolGame createGame() {
-        StraightPoolGame game = new StraightPoolGame();
-        game.getParticipants().setParticipants( createParticipant( PLAYER_A ), createParticipant( PLAYER_B ) );
-
-        return game;
-    }
-
-    private StraightPoolParticipant createParticipant( String name ) {
-        return new StraightPoolParticipant( new Person( name ) );
     }
 
 }

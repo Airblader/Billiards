@@ -12,8 +12,6 @@ public class StraightPoolEvent implements GameEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // TODO inning identifier
-
     private int numberOfBallsLeftInRack;
     private int numberOfFinishedRacks;
 

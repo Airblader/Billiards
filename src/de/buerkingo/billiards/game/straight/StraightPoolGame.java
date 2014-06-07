@@ -22,8 +22,11 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
     private final List<StraightPoolEvent> events = newArrayList();
 
+    // TODO should not be constant
+    private final int pointsToWin = 100;
+
     @Override
-    public void processEvent( StraightPoolEvent event ) {
+    public boolean processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
         events.add( event );
 
@@ -33,11 +36,17 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             participants.getActiveParticipant().addPoints( scoredPoints );
         }
 
-        // TODO determine win
-
-        if( isTurn ) {
+        if( activeParticipantHasWon() ) {
+            return true;
+        } else if( isTurn ) {
             participants.turn();
         }
+
+        return false;
+    }
+
+    private boolean activeParticipantHasWon() {
+        return participants.getActiveParticipant().getPoints() >= pointsToWin;
     }
 
     @VisibleForTesting

@@ -8,8 +8,11 @@ import de.buerkingo.billiards.participants.Participants;
  */
 public interface Game<EVENT extends GameEvent, RACK extends Rack, PARTICIPANT extends Participant> {
 
-    /** Process the incoming event. */
-    void processEvent( EVENT event );
+    /**
+     * Process the event.
+     * This method returns {@code true} if and only if the game is over after this event.
+     */
+    boolean processEvent( EVENT event );
 
     /** Get the rack. */
     RACK getRack();

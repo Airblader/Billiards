@@ -32,6 +32,10 @@ public class Participants<T extends Participant> implements Serializable {
         return get( activeParticipant );
     }
 
+    public int getNumberOfParticipants() {
+        return numberOfParticipants;
+    }
+
     /** Triggers a turn, i.e. control will switch to the next player. */
     public void turn() {
         activeParticipant = ( activeParticipant == numberOfParticipants - 1 ) ? 0 : activeParticipant + 1;

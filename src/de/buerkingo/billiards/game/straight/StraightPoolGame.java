@@ -14,7 +14,7 @@ import de.buerkingo.billiards.util.reject.Reject;
 /**
  * Manages a game of straight pool.
  */
-public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRack, StraightPoolParticipant>, Serializable {
+public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRack, StraightPoolParticipant, StraightPoolState>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     private final int pointsToWin = 100;
 
     @Override
-    public boolean processEvent( StraightPoolEvent event ) {
+    public StraightPoolState processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
         events.add( event );
 
@@ -40,7 +40,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
         participants.getActiveParticipant().addPoints( getEffectivelyScoredPoints( event ) );
         if( activeParticipantHasWon() ) {
-            return true;
+            return null; // TODO
         }
 
         if( hadAtLeastOneShotWithoutFoul( event ) ) {
@@ -74,7 +74,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         }
 
         // TODO update rack
-        return false;
+        return null; // TODO
     }
 
     private boolean hadAtLeastOneShotWithoutFoul( StraightPoolEvent event ) {

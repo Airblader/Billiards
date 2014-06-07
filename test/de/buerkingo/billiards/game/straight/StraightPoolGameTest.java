@@ -2,6 +2,7 @@ package de.buerkingo.billiards.game.straight;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import de.buerkingo.billiards.participants.Person;
@@ -11,9 +12,15 @@ public class StraightPoolGameTest {
     private static final String PLAYER_A = "Player A";
     private static final String PLAYER_B = "Player B";
 
+    private StraightPoolGame game;
+
+    @Before
+    public void before() {
+        game = createGame();
+    }
+
     @Test
     public void givenGameWhenEventIsProcessedThenControlPasses() {
-        StraightPoolGame game = createGame();
         assertThat( game.getParticipants().getActiveParticipant().getIdentity().getName() )
             .isEqualTo( PLAYER_A );
 
@@ -25,7 +32,6 @@ public class StraightPoolGameTest {
 
     @Test
     public void givenGameWhenPlayerScoresNoPointsThenPointsAreUnchanged() {
-        StraightPoolGame game = createGame();
         StraightPoolEvent event = new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS )
             .withNumberOfFinishedRacks( 0 );

@@ -20,9 +20,12 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     public void processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
 
-        // TODO
+        boolean isTurn = true;
+        if( event.getNumberOfFinishedRacks() != 0 || event.getNumberOfBallsLeftInRack() < rack.getCurrentNumberOfBalls() ) {
+            // player has scored points
+        }
 
-        if( event.isTurn() ) {
+        if( isTurn ) {
             participants.turn();
         }
     }

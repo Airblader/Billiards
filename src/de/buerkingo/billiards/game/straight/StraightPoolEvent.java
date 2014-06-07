@@ -12,7 +12,6 @@ public class StraightPoolEvent implements GameEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final boolean isTurn = true;
     private int numberOfBallsLeftInRack;
     private int numberOfFinishedRacks;
 
@@ -31,11 +30,6 @@ public class StraightPoolEvent implements GameEvent, Serializable {
 
         this.numberOfFinishedRacks = numberOfFinishedRacks;
         return this;
-    }
-
-    @Override
-    public boolean isTurn() {
-        return isTurn;
     }
 
     public int getNumberOfBallsLeftInRack() {

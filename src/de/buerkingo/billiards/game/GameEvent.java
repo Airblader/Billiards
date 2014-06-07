@@ -5,7 +5,4 @@ package de.buerkingo.billiards.game;
  */
 public interface GameEvent {
 
-    /** Specifies whether or not this event causes the player at the table to switch to the next player. */
-    boolean isTurn();
-
 }

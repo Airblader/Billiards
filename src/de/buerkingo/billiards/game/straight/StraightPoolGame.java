@@ -72,6 +72,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             participants.turn();
         }
 
+        // TODO update rack
         return false;
     }
 

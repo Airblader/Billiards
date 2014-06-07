@@ -9,6 +9,8 @@ public class SimpleFoul implements Foul, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static Foul NO_FOUL = new SimpleFoul( 0 );
+
     private final int pointsToDeduct;
 
     public SimpleFoul( int pointsToDeduct ) {

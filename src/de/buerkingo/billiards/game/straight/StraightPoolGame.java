@@ -1,6 +1,7 @@
 package de.buerkingo.billiards.game.straight;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static de.buerkingo.billiards.game.straight.foul.SimpleFoul.NO_FOUL;
 
 import java.io.Serializable;
 import java.util.List;
@@ -53,7 +54,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     protected int getEffectivelyScoredPoints( StraightPoolEvent event ) {
         return rack.getCurrentNumberOfBalls()
                 + StraightPoolRack.NUMBER_OF_BALLS - event.getNumberOfBallsLeftInRack()
-                + StraightPoolRack.NUMBER_OF_BALLS * ( event.getNumberOfFinishedRacks() - 1 );
+                + StraightPoolRack.NUMBER_OF_BALLS * ( event.getNumberOfFinishedRacks() - 1 )
+                - event.getFoul().or( NO_FOUL ).getPointsToDeduct();
     }
 
     @Override

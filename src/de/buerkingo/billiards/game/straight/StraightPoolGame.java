@@ -42,6 +42,10 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             participants.getActiveParticipant().resetConsecutiveFouls();
         }
 
+        if( event.getFoul().isPresent() && event.getFoul().get().countsAsFoul() ) {
+            participants.getActiveParticipant().increaseConsecutiveFouls();
+        }
+
         if( isTurn ) {
             participants.turn();
         }

@@ -28,9 +28,9 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         boolean isTurn = true;
         if( event.getNumberOfFinishedRacks() != 0 || event.getNumberOfBallsLeftInRack() < rack.getCurrentNumberOfBalls() ) {
             participants.getActiveParticipant().addPoints( 0 ); // TODO calculate points
-
-            // TODO determine win
         }
+
+        // TODO determine win
 
         if( isTurn ) {
             participants.turn();

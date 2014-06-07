@@ -14,6 +14,7 @@ public class StraightPoolParticipant implements Participant, Serializable {
 
     private final Identity identity;
     private int points = 0;
+    private int consecutiveFouls = 0;
 
     public StraightPoolParticipant( Identity identity ) {
         this.identity = identity;
@@ -30,6 +31,15 @@ public class StraightPoolParticipant implements Participant, Serializable {
 
     public StraightPoolParticipant addPoints( int points ) {
         this.points += points;
+        return this;
+    }
+
+    public int getConsecutiveFouls() {
+        return consecutiveFouls;
+    }
+
+    public StraightPoolParticipant increaseConsecutiveFouls() {
+        consecutiveFouls++;
         return this;
     }
 

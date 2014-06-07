@@ -21,7 +21,7 @@ public class SimpleFoul implements Foul, Serializable {
     }
 
     @Override
-    public boolean doesRequireRerack() {
+    public boolean requiresRerack() {
         return false;
     }
 

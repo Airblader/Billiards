@@ -25,4 +25,9 @@ public class SimpleFoul implements Foul, Serializable {
         return false;
     }
 
+    @Override
+    public boolean countsAsFoul() {
+        return true;
+    }
+
 }

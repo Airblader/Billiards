@@ -68,6 +68,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             participants.getActiveParticipant().resetConsecutiveFouls();
         }
 
+        controlPasses &= !requiresRerack;
         if( controlPasses ) {
             participants.turn();
         }

@@ -5,6 +5,8 @@ import static com.google.common.collect.Lists.newArrayList;
 import java.io.Serializable;
 import java.util.List;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
@@ -38,7 +40,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         }
     }
 
-    private int getEffectivelyScoredPoints( StraightPoolEvent event ) {
+    @VisibleForTesting
+    protected int getEffectivelyScoredPoints( StraightPoolEvent event ) {
         return rack.getCurrentNumberOfBalls() - event.getNumberOfBallsLeftInRack();
     }
 

@@ -26,8 +26,9 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         events.add( event );
 
         boolean isTurn = true;
-        if( event.getNumberOfFinishedRacks() != 0 || event.getNumberOfBallsLeftInRack() < rack.getCurrentNumberOfBalls() ) {
-            participants.getActiveParticipant().addPoints( 0 ); // TODO calculate points
+        int scoredPoints = getEffectivelyScoredPoints( event );
+        if( scoredPoints != 0 ) {
+            participants.getActiveParticipant().addPoints( scoredPoints );
         }
 
         // TODO determine win
@@ -35,6 +36,14 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         if( isTurn ) {
             participants.turn();
         }
+    }
+
+    private int getEffectivelyScoredPoints( StraightPoolEvent event ) {
+        if( event.getNumberOfFinishedRacks() == 0 && event.getNumberOfBallsLeftInRack() == rack.getCurrentNumberOfBalls() ) {
+            return 0;
+        }
+
+        return 0;
     }
 
     @Override

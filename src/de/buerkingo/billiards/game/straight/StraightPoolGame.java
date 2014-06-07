@@ -34,7 +34,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         events.add( event );
 
         // TODO should be false with more logic later
-        boolean isTurn = true;
+        boolean controlPasses = true;
         boolean requiresRerack = false;
 
         participants.getActiveParticipant().addPoints( getEffectivelyScoredPoints( event ) );
@@ -47,7 +47,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         }
 
         if( event.getFoul().isPresent() ) {
-            isTurn = true;
+            controlPasses = true;
 
             if( event.getFoul().get().requiresRerack() ) {
                 requiresRerack = true;
@@ -68,7 +68,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             participants.getActiveParticipant().resetConsecutiveFouls();
         }
 
-        if( isTurn ) {
+        if( controlPasses ) {
             participants.turn();
         }
 

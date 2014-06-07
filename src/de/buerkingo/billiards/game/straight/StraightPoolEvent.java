@@ -38,7 +38,7 @@ public class StraightPoolEvent implements GameEvent, Serializable {
         return this;
     }
 
-    /** A foul that occured at the end of this event. */
+    /** A foul that occurred at the end of this event. */
     public StraightPoolEvent withFoul( Foul foul ) {
         this.foul = Optional.fromNullable( foul );
         return this;
@@ -48,6 +48,7 @@ public class StraightPoolEvent implements GameEvent, Serializable {
         return numberOfBallsLeftInRack;
     }
 
+    @Deprecated
     public int getNumberOfFinishedRacks() {
         return numberOfFinishedRacks;
     }

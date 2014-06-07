@@ -32,7 +32,8 @@ public class StraightPoolGameTest {
 
         game.processEvent( event );
 
-        // TODO add assertions
+        assertThat( game.getParticipants().get( 0 ).getPoints() ).isEqualTo( 0 );
+        assertThat( game.getParticipants().get( 1 ).getPoints() ).isEqualTo( 0 );
     }
 
     private StraightPoolGame createGame() {

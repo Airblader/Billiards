@@ -6,6 +6,14 @@ import java.util.List;
 
 public class Reject {
 
+    public static AssumptionException always() {
+        throw always( null );
+    }
+
+    public static AssumptionException always( String description ) {
+        throw reject( description );
+    }
+
     public static void ifNull( Object obj ) {
         ifNull( "expected parameter not to be null", obj );
     }
@@ -88,7 +96,7 @@ public class Reject {
         }
     }
 
-    private static void reject( String description ) {
+    private static AssumptionException reject( String description ) {
         throw new AssumptionException( description );
     }
 

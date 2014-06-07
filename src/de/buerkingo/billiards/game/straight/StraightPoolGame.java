@@ -82,6 +82,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     }
 
     private boolean activeParticipantHasWon() {
+        // TODO win by innings
         return participants.getActiveParticipant().getPoints() >= pointsToWin;
     }
 

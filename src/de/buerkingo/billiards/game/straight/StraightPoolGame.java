@@ -20,11 +20,11 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     public void processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
 
+        // TODO
+
         if( event.isTurn() ) {
             participants.turn();
         }
-
-        // TODO
     }
 
     @Override

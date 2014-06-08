@@ -17,7 +17,8 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
         assertThat( game.getParticipants().getActiveParticipant().getIdentity().getName() )
             .isEqualTo( PLAYER_A );
 
-        game.processEvent( new StraightPoolEvent() );
+        game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( 15 ) );
 
         assertThat( game.getParticipants().getActiveParticipant().getIdentity().getName() )
             .isEqualTo( PLAYER_B );

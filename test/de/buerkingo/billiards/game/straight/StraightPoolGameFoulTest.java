@@ -17,6 +17,7 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
         assertThatParticipantHasConsecutiveFouls( PLAYER_A, 0 );
 
         game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( 15 )
             .withFoul( new SimpleFoul() ) );
 
         assertThatParticipantHasConsecutiveFouls( PLAYER_A, 1 );

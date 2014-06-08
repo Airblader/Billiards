@@ -22,6 +22,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
+    private boolean isFirstShotAfterRerack = true;
+
     private StraightPoolGame( int pointsToWin ) {
         this.pointsToWin = pointsToWin;
     }
@@ -68,12 +70,14 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         switch( event.getNumberOfBallsLeftInRack() ) {
             case 0:
             case 1:
+                isFirstShotAfterRerack = true;
                 break;
             default:
                 if( !requiresRerack ) {
                     controlPasses = true;
                 }
 
+                isFirstShotAfterRerack = false;
                 break;
         }
 

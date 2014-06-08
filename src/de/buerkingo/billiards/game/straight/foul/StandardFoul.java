@@ -16,6 +16,7 @@ final public class StandardFoul implements Foul, Serializable {
     }
 
     public StandardFoul( FoulReason reason ) {
+        // TODO only allow certain reasons
         this.reason = reason;
     }
 

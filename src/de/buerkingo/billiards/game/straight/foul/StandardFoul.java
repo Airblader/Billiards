@@ -20,8 +20,8 @@ final public class StandardFoul implements Foul, Serializable {
     }
 
     @Override
-    public int getPointsToDeduct( boolean isFirstShot ) {
-        return isFirstShot ? 2 : 1;
+    public int getPointsToDeduct() {
+        return 1;
     }
 
     @Override
@@ -34,6 +34,7 @@ final public class StandardFoul implements Foul, Serializable {
         return true;
     }
 
+    @Override
     public FoulReason getReason() {
         return reason;
     }

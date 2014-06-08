@@ -1,6 +1,9 @@
 package de.buerkingo.billiards.game.straight;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.io.Serializable;
+import java.util.List;
 
 import de.buerkingo.billiards.participants.Identity;
 import de.buerkingo.billiards.participants.Participant;
@@ -13,7 +16,8 @@ public class StraightPoolParticipant implements Participant, Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Identity identity;
-    private int points = 0;
+
+    private final List<StraightPoolInning> innings = newArrayList();
     private int consecutiveFouls = 0;
 
     public StraightPoolParticipant( Identity identity ) {
@@ -25,27 +29,12 @@ public class StraightPoolParticipant implements Participant, Serializable {
         return identity;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public StraightPoolParticipant addPoints( int points ) {
-        this.points += points;
-        return this;
-    }
-
     public int getConsecutiveFouls() {
         return consecutiveFouls;
     }
 
-    public StraightPoolParticipant increaseConsecutiveFouls() {
-        consecutiveFouls++;
-        return this;
-    }
-
-    public StraightPoolParticipant resetConsecutiveFouls() {
-        consecutiveFouls = 0;
-        return this;
+    public List<StraightPoolInning> getInnings() {
+        return innings;
     }
 
 }

@@ -9,6 +9,8 @@ import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
+import de.buerkingo.billiards.util.DataProviders;
+
 @RunWith( DataProviderRunner.class )
 public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
@@ -26,10 +28,8 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
     @Test
     public void givenGameWhenPlayerScoresNoPointsThenPointsAreUnchanged() {
-        StraightPoolEvent event = new StraightPoolEvent()
-            .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS );
-
-        game.processEvent( event );
+        game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS ) );
 
         assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( 0 );
         assertThat( getParticipant( PLAYER_B ).getPoints() ).isEqualTo( 0 );
@@ -53,6 +53,28 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
             { 15, 10, 5 },
             { 10, 5, 5 }
         };
+    }
+
+    @Test
+    public void givenNewGameWhenNothingHappenedThenItIsTheFirstShot() {
+        assertThat( game.isFirstShotAfterRerack() ).isTrue();
+    }
+
+    @Test
+    public void givenGameWhenOneParticipantPlayedThenItIsNotTheFirstShot() {
+        game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS ) );
+
+        assertThat( game.isFirstShotAfterRerack() ).isFalse();
+    }
+
+    @Test
+    @UseDataProvider( value = "provideZeroOne", location = DataProviders.class )
+    public void givenGameWhenRackWasRunOutThenItIsTheFirstShot( int ballsLeft ) {
+        game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( ballsLeft ) );
+
+        assertThat( game.isFirstShotAfterRerack() ).isTrue();
     }
 
 }

@@ -11,4 +11,11 @@ public class DataProviders {
         };
     }
 
+    @DataProvider
+    public static Object[][] provideZeroOne() {
+        return new Object[][] {
+            { 0 }, { 1 }
+        };
+    }
+
 }

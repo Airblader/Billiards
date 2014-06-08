@@ -124,6 +124,11 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         return participants;
     }
 
+    @VisibleForTesting
+    public boolean isFirstShotAfterRerack() {
+        return isFirstShotAfterRerack;
+    }
+
     public static Builder builder() {
         return new Builder();
     }

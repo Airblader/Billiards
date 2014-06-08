@@ -9,13 +9,13 @@ final public class StandardFoul implements Foul, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final StandardFoulReason reason;
+    private final FoulReason reason;
 
     public StandardFoul() {
-        this( StandardFoulReason.UNCATEGORIZED );
+        this( FoulReason.UNCATEGORIZED );
     }
 
-    public StandardFoul( StandardFoulReason reason ) {
+    public StandardFoul( FoulReason reason ) {
         this.reason = reason;
     }
 
@@ -34,7 +34,7 @@ final public class StandardFoul implements Foul, Serializable {
         return true;
     }
 
-    public StandardFoulReason getReason() {
+    public FoulReason getReason() {
         return reason;
     }
 

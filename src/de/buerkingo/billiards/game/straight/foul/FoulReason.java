@@ -1,7 +1,7 @@
 package de.buerkingo.billiards.game.straight.foul;
 
 // http://www.wpa-pool.com/web/index.asp?id=119&pagetype=rules#4.10
-public enum StandardFoulReason {
+public enum FoulReason {
     UNCATEGORIZED,
 
     SCRATCHED,

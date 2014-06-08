@@ -2,6 +2,8 @@ package de.buerkingo.billiards.game.straight;
 
 import java.io.Serializable;
 
+import com.google.common.base.Optional;
+
 import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.game.GameEvent;
 import de.buerkingo.billiards.game.straight.events.FinishedInningEvent;
@@ -17,11 +19,14 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     private static final long serialVersionUID = 1L;
 
     private final int pointsToWin;
+    private final Optional<Integer> maxInnings;
+
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
-    private StraightPoolGame( int pointsToWin ) {
+    private StraightPoolGame( int pointsToWin, Optional<Integer> maxInnings ) {
         this.pointsToWin = pointsToWin;
+        this.maxInnings = maxInnings;
     }
 
     @Override
@@ -57,14 +62,24 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
     public static class Builder {
         private int pointsToWin;
+        private Optional<Integer> maxInnings = Optional.absent();
 
         public Builder withPointsToWin( int pointsToWin ) {
             this.pointsToWin = pointsToWin;
             return this;
         }
 
+        public Builder withMaxInnings( int maxInnings ) {
+            Reject.ifEqual( "must have a positive number of innings", maxInnings, 0 );
+
+            this.maxInnings = Optional.of( maxInnings );
+            return this;
+        }
+
         public StraightPoolGame get() {
-            return new StraightPoolGame( pointsToWin );
+            Reject.ifEqual( "points needed to win need to be set", pointsToWin, 0 );
+
+            return new StraightPoolGame( pointsToWin, maxInnings );
         }
     }
 

@@ -11,21 +11,13 @@ public class StandardFoul implements Foul, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final int pointsToDeduct;
-    private final int pointsToDeductIfFirstShotAfterRerack;
-
-    public StandardFoul() {
-        this.pointsToDeduct = 1;
-        this.pointsToDeductIfFirstShotAfterRerack = 2;
-    }
-
     @Override
     public int getPointsToDeduct( FoulScenario scenario ) {
         switch( scenario ) {
             case DEFAULT:
-                return pointsToDeduct;
+                return 1;
             case FIRST_SHOT_AFTER_RERACK:
-                return pointsToDeductIfFirstShotAfterRerack;
+                return 2;
             default:
                 throw Reject.always( "unknown scenario" );
         }

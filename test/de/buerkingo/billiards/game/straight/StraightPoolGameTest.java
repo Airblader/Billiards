@@ -77,4 +77,15 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
         assertThat( game.isFirstShotAfterRerack() ).isTrue();
     }
 
+    @Test
+    public void givenGameWhenParticipantReachesPointsLimitThenParticipantWins() {
+        createGame( 5 );
+
+        StraightPoolState state = game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( 10 ) );
+
+        assertThat( state.isGameOver() ).isTrue();
+        assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_A ) );
+    }
+
 }

@@ -14,16 +14,23 @@ public class StraightPoolGameTestBase {
 
     @Before
     public void before() {
-        game = createGame();
+        createGame();
     }
 
-    public StraightPoolGame createGame() {
-        StraightPoolGame game = StraightPoolGame.builder()
-            .withPointsToWin( 60 )
-            .get();
-        game.getParticipants().setParticipants( createParticipant( PLAYER_A ), createParticipant( PLAYER_B ) );
+    public void createGame() {
+        createGame( 60 );
+    }
 
-        return game;
+    public void createGame( int pointsLimit ) {
+        game = StraightPoolGame.builder()
+            .withPointsToWin( pointsLimit )
+            .get();
+
+        createParticipantsAndAddToGame();
+    }
+
+    private void createParticipantsAndAddToGame() {
+        game.getParticipants().setParticipants( createParticipant( PLAYER_A ), createParticipant( PLAYER_B ) );
     }
 
     public StraightPoolParticipant createParticipant( String name ) {

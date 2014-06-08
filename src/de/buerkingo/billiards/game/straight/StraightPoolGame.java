@@ -36,8 +36,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
         participants.getActiveParticipant().addPoints( getEffectivelyScoredPoints( event ) );
         if( activeParticipantHasWon() ) {
-            // TODO add information about game being over
-            return new StraightPoolState( participants.getActiveParticipant(), false );
+            return new StraightPoolState( participants.getActiveParticipant() );
         }
 
         if( hadAtLeastOneShotWithoutFoul( event ) ) {

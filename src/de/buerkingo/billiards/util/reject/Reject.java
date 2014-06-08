@@ -34,6 +34,26 @@ public class Reject {
         }
     }
 
+    public static void ifTrue( boolean value ) {
+        ifTrue( "expected value not to be true", value );
+    }
+
+    public static void ifTrue( String description, boolean value ) {
+        if( value ) {
+            reject( description );
+        }
+    }
+
+    public static void ifFalse( boolean value ) {
+        ifFalse( "expected value not to be false", value );
+    }
+
+    public static void ifFalse( String description, boolean value ) {
+        if( !value ) {
+            reject( description );
+        }
+    }
+
     public static void ifEqual( int actual, int expected ) {
         ifEqual( format( "expected %d not to be equal to %d", actual, expected ), actual, expected );
     }

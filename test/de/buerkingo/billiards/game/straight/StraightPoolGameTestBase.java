@@ -18,7 +18,9 @@ public class StraightPoolGameTestBase {
     }
 
     public StraightPoolGame createGame() {
-        StraightPoolGame game = new StraightPoolGame();
+        StraightPoolGame game = StraightPoolGame.builder()
+            .withPointsToWin( 60 )
+            .get();
         game.getParticipants().setParticipants( createParticipant( PLAYER_A ), createParticipant( PLAYER_B ) );
 
         return game;

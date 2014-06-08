@@ -21,13 +21,15 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     private static final int MAX_CONSECUTIVE_FOULS = 3;
     private static final int CONSECUTIVE_FOUL_PENALTY = -15;
 
+    private final int pointsToWin;
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
     private final List<StraightPoolEvent> events = newArrayList();
 
-    // TODO should not be constant
-    private final int pointsToWin = 100;
+    private StraightPoolGame( int pointsToWin ) {
+        this.pointsToWin = pointsToWin;
+    }
 
     @Override
     public StraightPoolState processEvent( StraightPoolEvent event ) {
@@ -105,6 +107,23 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     @Override
     public Participants<StraightPoolParticipant> getParticipants() {
         return participants;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private int pointsToWin;
+
+        public Builder withPointsToWin( int pointsToWin ) {
+            this.pointsToWin = pointsToWin;
+            return this;
+        }
+
+        public StraightPoolGame get() {
+            return new StraightPoolGame( pointsToWin );
+        }
     }
 
 }

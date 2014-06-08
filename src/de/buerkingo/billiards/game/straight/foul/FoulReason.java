@@ -3,7 +3,6 @@ package de.buerkingo.billiards.game.straight.foul;
 public enum FoulReason {
     UNCATEGORIZED,
 
-    // standard fouls
     CUE_BALL_SCRATCHED_OR_OFF_THE_TABLE,
     NO_RAIL_AFTER_CONTACT,
     NO_FOOT_ON_FLOOR,
@@ -18,7 +17,7 @@ public enum FoulReason {
     PLAYING_OUT_OF_TURN,
     SLOW_PLAY,
 
-    // serious fouls
     BREAK_FOUL,
+
     UNSPORTSMANLIKE_CONDUCT;
 }

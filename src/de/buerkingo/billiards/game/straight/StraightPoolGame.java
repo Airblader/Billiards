@@ -1,9 +1,6 @@
 package de.buerkingo.billiards.game.straight;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.io.Serializable;
-import java.util.List;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -25,8 +22,6 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
-    private final List<StraightPoolEvent> events = newArrayList();
-
     private StraightPoolGame( int pointsToWin ) {
         this.pointsToWin = pointsToWin;
     }
@@ -34,7 +29,6 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     @Override
     public StraightPoolState processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
-        events.add( event );
 
         // TODO should be false with more logic later
         boolean controlPasses = true;

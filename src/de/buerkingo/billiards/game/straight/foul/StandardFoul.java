@@ -2,6 +2,8 @@ package de.buerkingo.billiards.game.straight.foul;
 
 import java.io.Serializable;
 
+import de.buerkingo.billiards.util.reject.Reject;
+
 /**
  * A standard foul.
  */
@@ -16,7 +18,9 @@ final public class StandardFoul implements Foul, Serializable {
     }
 
     public StandardFoul( FoulReason reason ) {
-        // TODO only allow certain reasons
+        Reject.ifNull( reason );
+        Reject.ifFalse( "specified reason is not suitable for a standard foul", reason.isStandardFoul() );
+
         this.reason = reason;
     }
 

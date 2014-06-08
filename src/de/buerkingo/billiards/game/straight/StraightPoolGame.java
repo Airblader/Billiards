@@ -8,7 +8,7 @@ import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.game.GameEvent;
 import de.buerkingo.billiards.game.straight.events.FinishedInningEvent;
 import de.buerkingo.billiards.game.straight.events.FinishedRackEvent;
-import de.buerkingo.billiards.game.straight.events.FoulEvent;
+import de.buerkingo.billiards.game.straight.foul.Foul;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
 
@@ -30,9 +30,9 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         this.maxInnings = maxInnings;
     }
 
-    public StraightPoolState processEvents( GameEvent rawEvent, Optional<FoulEvent> foulEvent ) {
+    public StraightPoolState processEvents( GameEvent rawEvent, Optional<Foul> foul ) {
         Reject.ifNull( rawEvent );
-        Reject.ifNull( foulEvent );
+        Reject.ifNull( foul );
 
         StraightPoolParticipant participant = participants.getActiveParticipant();
 
@@ -68,7 +68,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             Reject.always( "unknown event type" );
         }
 
-        if( foulEvent.isPresent() ) {
+        if( foul.isPresent() ) {
             controlPasses = true;
         }
 

@@ -17,7 +17,7 @@ public class StraightPoolState implements GameState, Serializable {
         this.hasRerack = hasRerack;
     }
 
-    /** Returns the participant which is activer after the processed event. */
+    /** Returns the participant which is active after the processed event. */
     public Participant getActiveParticipant() {
         return activeParticipant;
     }

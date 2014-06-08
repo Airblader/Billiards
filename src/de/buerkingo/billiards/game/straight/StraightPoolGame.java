@@ -8,6 +8,7 @@ import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.game.GameEvent;
 import de.buerkingo.billiards.game.straight.events.FinishedInningEvent;
 import de.buerkingo.billiards.game.straight.events.FinishedRackEvent;
+import de.buerkingo.billiards.game.straight.events.FoulEvent;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
 
@@ -36,9 +37,11 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         StraightPoolParticipant participant = participants.getActiveParticipant();
 
         if( event instanceof FinishedInningEvent ) {
-            // TODO
+            // TODO handle event
         } else if( event instanceof FinishedRackEvent ) {
-            // TODO
+            // TODO handle event
+        } else if( event instanceof FoulEvent ) {
+            // TODO handle event
         } else {
             Reject.always( "unknown event type" );
         }

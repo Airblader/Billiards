@@ -5,10 +5,19 @@ import java.io.Serializable;
 /**
  * A standard foul.
  */
-// TODO maybe a foul category as defined here? http://www.wpa-pool.com/web/index.asp?id=119&pagetype=rules#4.3
 final public class StandardFoul implements Foul, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private final StandardFoulReason reason;
+
+    public StandardFoul() {
+        this( StandardFoulReason.UNCATEGORIZED );
+    }
+
+    public StandardFoul( StandardFoulReason reason ) {
+        this.reason = reason;
+    }
 
     @Override
     public int getPointsToDeduct( boolean isFirstShot ) {
@@ -23,6 +32,10 @@ final public class StandardFoul implements Foul, Serializable {
     @Override
     public boolean countsAsFoul() {
         return true;
+    }
+
+    public StandardFoulReason getReason() {
+        return reason;
     }
 
 }

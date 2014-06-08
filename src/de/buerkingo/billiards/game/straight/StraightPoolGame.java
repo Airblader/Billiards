@@ -33,7 +33,6 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         this.maxInnings = maxInnings;
     }
 
-    @Override
     public StraightPoolState processEvents( GameEvent... rawEvents ) {
         Reject.ifNull( rawEvents );
 
@@ -86,11 +85,6 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         // TODO return state
         return null;
-    }
-
-    @Override
-    public StraightPoolRack getRack() {
-        return rack;
     }
 
     @Override

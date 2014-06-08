@@ -57,7 +57,7 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
     @Test
     public void givenNewGameWhenNothingHappenedThenItIsTheFirstShot() {
-        assertThat( game.isFirstShotAfterRerack() ).isTrue();
+        assertThat( game.isFirstShot() ).isTrue();
     }
 
     @Test
@@ -65,7 +65,7 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
         game.processEvent( new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( StraightPoolRack.NUMBER_OF_BALLS ) );
 
-        assertThat( game.isFirstShotAfterRerack() ).isFalse();
+        assertThat( game.isFirstShot() ).isFalse();
     }
 
     @Test
@@ -74,7 +74,7 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
         game.processEvent( new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( ballsLeft ) );
 
-        assertThat( game.isFirstShotAfterRerack() ).isFalse();
+        assertThat( game.isFirstShot() ).isFalse();
     }
 
     @Test

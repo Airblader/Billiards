@@ -125,7 +125,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     }
 
     @VisibleForTesting
-    public boolean isFirstShotAfterRerack() {
+    public boolean isFirstShot() {
         return isFirstShot;
     }
 

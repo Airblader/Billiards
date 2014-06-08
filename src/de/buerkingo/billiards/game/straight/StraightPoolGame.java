@@ -2,8 +2,6 @@ package de.buerkingo.billiards.game.straight;
 
 import java.io.Serializable;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
@@ -15,14 +13,9 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     private static final long serialVersionUID = 1L;
 
-    private static final int MAX_CONSECUTIVE_FOULS = 3;
-    private static final int CONSECUTIVE_FOUL_PENALTY = -15;
-
     private final int pointsToWin;
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
-
-    private boolean isFirstShot = true;
 
     private StraightPoolGame( int pointsToWin ) {
         this.pointsToWin = pointsToWin;
@@ -34,90 +27,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         Reject.ifGreaterThan( "cannot have more balls on table than before",
             event.getNumberOfBallsLeftInRack(), rack.getCurrentNumberOfBalls() );
 
-        int effectivelyScoredPoints = getEffectivelyScoredPoints( event );
-        isFirstShot = false;
-
-        boolean controlPasses = false;
-        boolean requiresRerack = false;
-
-        participants.getActiveParticipant().addPoints( effectivelyScoredPoints );
-
-        if( activeParticipantHasWon() ) {
-            return new StraightPoolState( participants.getActiveParticipant() );
-        }
-
-        if( hadAtLeastOneShotWithoutFoul( event ) ) {
-            participants.getActiveParticipant().resetConsecutiveFouls();
-        }
-
-        if( event.getFoul().isPresent() ) {
-            controlPasses = true;
-
-            if( event.getFoul().get().requiresRerack() ) {
-                requiresRerack = true;
-            }
-
-            if( event.getFoul().get().countsAsFoul() ) {
-                participants.getActiveParticipant().increaseConsecutiveFouls();
-            }
-
-            if( participants.getActiveParticipant().getConsecutiveFouls() == MAX_CONSECUTIVE_FOULS ) {
-                participants.getActiveParticipant().addPoints( CONSECUTIVE_FOUL_PENALTY );
-                participants.getActiveParticipant().resetConsecutiveFouls();
-
-                requiresRerack = true;
-            }
-        } else {
-            participants.getActiveParticipant().resetConsecutiveFouls();
-        }
-
-        if( event.isSafety() ) {
-            controlPasses = true;
-        }
-
-        switch( event.getNumberOfBallsLeftInRack() ) {
-            case 0:
-            case 1:
-                break;
-            default:
-                if( !requiresRerack ) {
-                    controlPasses = true;
-                }
-
-                break;
-        }
-
-        controlPasses &= !requiresRerack;
-        if( controlPasses ) {
-            participants.turn();
-        }
-
-        updateRack( event );
-        return new StraightPoolState( participants.getActiveParticipant(), requiresRerack );
-    }
-
-    private void updateRack( StraightPoolEvent event ) {
-        int numberOfBalls = event.getNumberOfBallsLeftInRack();
-        rack.setCurrentNumberOfBalls( numberOfBalls <= 1 ? StraightPoolRack.NUMBER_OF_BALLS : numberOfBalls );
-    }
-
-    private boolean hadAtLeastOneShotWithoutFoul( StraightPoolEvent event ) {
-        return getScoredPoints( event ) > 0;
-    }
-
-    private boolean activeParticipantHasWon() {
-        // TODO win by innings
-        return participants.getActiveParticipant().getPoints() >= pointsToWin;
-    }
-
-    @VisibleForTesting
-    protected int getEffectivelyScoredPoints( StraightPoolEvent event ) {
-        int foulPoints = event.getFoul().isPresent() ? event.getFoul().get().getPointsToDeduct( isFirstShot() ) : 0;
-        return getScoredPoints( event ) - foulPoints;
-    }
-
-    private int getScoredPoints( StraightPoolEvent event ) {
-        return rack.getCurrentNumberOfBalls() - event.getNumberOfBallsLeftInRack();
+        return null;
     }
 
     @Override
@@ -128,11 +38,6 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     @Override
     public Participants<StraightPoolParticipant> getParticipants() {
         return participants;
-    }
-
-    @VisibleForTesting
-    public boolean isFirstShot() {
-        return isFirstShot;
     }
 
     public static Builder builder() {

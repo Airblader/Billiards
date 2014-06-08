@@ -1,5 +1,6 @@
 package de.buerkingo.billiards.game.straight.foul;
 
+// http://www.wpa-pool.com/web/index.asp?id=119&pagetype=rules#4.10
 public enum StandardFoulReason {
     UNCATEGORIZED,
 
@@ -11,5 +12,7 @@ public enum StandardFoulReason {
     DOUBLE_HIT,
     PUSH_SHOT,
     BALLS_STILL_MOVING,
-    SLOW_PLAY
+    SLOW_PLAY;
+
+    // TODO use this to determine points
 }

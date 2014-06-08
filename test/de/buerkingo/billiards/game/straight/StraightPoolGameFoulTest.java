@@ -6,10 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 import de.buerkingo.billiards.game.straight.foul.SimpleFoul;
-import de.buerkingo.billiards.util.DataProviders;
 
 @RunWith( DataProviderRunner.class )
 public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
@@ -25,16 +23,29 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
     }
 
     @Test
-    @UseDataProvider( value = "provideTrueFalse", location = DataProviders.class )
-    public void givenParticipantWithPreviousFoulWhenParticipantScoresThenConsecutiveFoulsAreReset( boolean inningEndsWithFoul ) {
+    public void givenParticipantWithPreviousFoulWhenParticipantDoesNotScoreConsecutiveFoulsAreReset() {
         game.getParticipants().getActiveParticipant().increaseConsecutiveFouls();
+
         assertThatParticipantHasConsecutiveFouls( PLAYER_A, 1 );
 
         game.processEvent( new StraightPoolEvent()
-            .withNumberOfBallsLeftInRack( 10 )
-            .withFoul( inningEndsWithFoul ? new SimpleFoul() : null ) );
+            .withNumberOfBallsLeftInRack( 15 ) );
 
         assertThatParticipantHasConsecutiveFouls( PLAYER_A, 0 );
+    }
+
+    @Test
+    public void givenParticipantWithPreviousFoulWhenParticipantScoresThenConsecutiveFoulsAreReset() {
+        game.getParticipants().getActiveParticipant().increaseConsecutiveFouls();
+        game.getParticipants().getActiveParticipant().increaseConsecutiveFouls();
+
+        assertThatParticipantHasConsecutiveFouls( PLAYER_A, 2 );
+
+        game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( 10 )
+            .withFoul( new SimpleFoul() ) );
+
+        assertThatParticipantHasConsecutiveFouls( PLAYER_A, 1 );
     }
 
     private void assertThatParticipantHasConsecutiveFouls( String name, int numberOfFouls ) {

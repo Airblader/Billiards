@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.google.common.base.Optional;
 
 import de.buerkingo.billiards.game.straight.foul.Foul;
+import de.buerkingo.billiards.util.reject.Reject;
 
 public class StraightPoolInning implements Serializable {
 
@@ -22,6 +23,13 @@ public class StraightPoolInning implements Serializable {
 
     public int getNumber() {
         return number;
+    }
+
+    public StraightPoolInning addPoints( int points ) {
+        Reject.ifLessThan( points, 0 );
+
+        this.points += points;
+        return this;
     }
 
     public int getPoints() {

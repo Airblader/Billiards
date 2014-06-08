@@ -31,21 +31,40 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     }
 
     @Override
-    public StraightPoolState processEvent( GameEvent event ) {
-        Reject.ifNull( event );
+    public StraightPoolState processEvent( GameEvent rawEvent ) {
+        Reject.ifNull( rawEvent );
 
         StraightPoolParticipant participant = participants.getActiveParticipant();
 
-        if( event instanceof FinishedInningEvent ) {
+        if( rawEvent instanceof FinishedInningEvent ) {
+            FinishedInningEvent event = (FinishedInningEvent) rawEvent;
+            Reject.ifGreaterThan( "there cannot be more balls left than before",
+                event.getNumberOfRemainingBalls(), rack.getCurrentNumberOfBalls() );
+
+            int pocketedBalls = rack.getCurrentNumberOfBalls() - event.getNumberOfRemainingBalls();
+            if( pocketedBalls > 0 ) {
+                participant.getInning().addPoints( pocketedBalls );
+                participant.resetConsecutiveFouls();
+            }
+
+            if( event.endedWithSafety() ) {
+                participant.getInning().endedWithSafety();
+            }
+
+            // TODO advance inning
+        } else if( rawEvent instanceof FinishedRackEvent ) {
+            FinishedRackEvent event = (FinishedRackEvent) rawEvent;
+
             // TODO handle event
-        } else if( event instanceof FinishedRackEvent ) {
-            // TODO handle event
-        } else if( event instanceof FoulEvent ) {
+        } else if( rawEvent instanceof FoulEvent ) {
+            FoulEvent event = (FoulEvent) rawEvent;
+
             // TODO handle event
         } else {
             Reject.always( "unknown event type" );
         }
 
+        // TODO return state
         return null;
     }
 

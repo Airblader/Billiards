@@ -106,7 +106,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     @VisibleForTesting
     protected int getEffectivelyScoredPoints( StraightPoolEvent event ) {
-        int foulPoints = event.getFoul().isPresent() ? event.getFoul().get().getPointsToDeduct( isFirstShot ) : 0;
+        int foulPoints = event.getFoul().isPresent() ? event.getFoul().get().getPointsToDeduct( isFirstShot() ) : 0;
         return getScoredPoints( event ) - foulPoints;
     }
 

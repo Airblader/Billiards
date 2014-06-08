@@ -90,8 +90,12 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             participants.turn();
         }
 
-        // TODO update rack
+        updateRack( event );
         return new StraightPoolState( participants.getActiveParticipant(), requiresRerack );
+    }
+
+    private void updateRack( StraightPoolEvent event ) {
+        rack.setCurrentNumberOfBalls( event.getNumberOfBallsLeftInRack() );
     }
 
     private boolean hadAtLeastOneShotWithoutFoul( StraightPoolEvent event ) {

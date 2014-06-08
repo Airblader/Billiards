@@ -30,8 +30,8 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
         game.processEvent( event );
 
-        assertThat( game.getParticipants().get( 0 ).getPoints() ).isEqualTo( 0 );
-        assertThat( game.getParticipants().get( 1 ).getPoints() ).isEqualTo( 0 );
+        assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( 0 );
+        assertThat( getParticipant( PLAYER_B ).getPoints() ).isEqualTo( 0 );
     }
 
     @Test

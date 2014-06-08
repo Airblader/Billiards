@@ -1,5 +1,7 @@
 package de.buerkingo.billiards.game.straight;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Before;
 
 import de.buerkingo.billiards.participants.Person;
@@ -47,6 +49,10 @@ public class StraightPoolGameTestBase {
         }
 
         throw Reject.always( "Participant not found" );
+    }
+
+    public void assertThatParticipantHasPoints( String name, int points ) {
+        assertThat( getParticipant( name ).getPoints() ).isEqualTo( points );
     }
 
 }

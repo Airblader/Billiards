@@ -8,8 +8,8 @@ import de.buerkingo.billiards.participants.Participants;
  */
 public interface Game<PARTICIPANT extends Participant, RACK extends Rack, STATE extends GameState> {
 
-    /** Process the event. */
-    STATE processEvent( GameEvent event );
+    /** Process events that logically belong together. */
+    STATE processEvents( GameEvent... events );
 
     /** Get the rack. */
     RACK getRack();

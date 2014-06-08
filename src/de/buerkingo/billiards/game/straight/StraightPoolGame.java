@@ -5,7 +5,6 @@ import java.io.Serializable;
 import com.google.common.annotations.VisibleForTesting;
 
 import de.buerkingo.billiards.game.Game;
-import de.buerkingo.billiards.game.straight.foul.FoulScenario;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
 
@@ -107,12 +106,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     @VisibleForTesting
     protected int getEffectivelyScoredPoints( StraightPoolEvent event ) {
-        int foulPoints = event.getFoul().isPresent() ? event.getFoul().get().getPointsToDeduct( getFoulScenario() ) : 0;
+        int foulPoints = event.getFoul().isPresent() ? event.getFoul().get().getPointsToDeduct( isFirstShot ) : 0;
         return getScoredPoints( event ) - foulPoints;
-    }
-
-    private FoulScenario getFoulScenario() {
-        return isFirstShot ? FoulScenario.FIRST_SHOT_AFTER_RERACK : FoulScenario.DEFAULT;
     }
 
     private int getScoredPoints( StraightPoolEvent event ) {

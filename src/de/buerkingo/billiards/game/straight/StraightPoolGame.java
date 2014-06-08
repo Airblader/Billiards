@@ -3,13 +3,14 @@ package de.buerkingo.billiards.game.straight;
 import java.io.Serializable;
 
 import de.buerkingo.billiards.game.Game;
+import de.buerkingo.billiards.game.GameEvent;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
 
 /**
  * Manages a game of straight pool.
  */
-public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRack, StraightPoolParticipant, StraightPoolState>, Serializable {
+public class StraightPoolGame implements Game<StraightPoolParticipant, StraightPoolRack, StraightPoolState>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,11 +23,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     }
 
     @Override
-    public StraightPoolState processEvent( StraightPoolEvent event ) {
+    public StraightPoolState processEvent( GameEvent event ) {
         Reject.ifNull( event );
-        Reject.ifGreaterThan( "cannot have more balls on table than before",
-            event.getNumberOfBallsLeftInRack(), rack.getCurrentNumberOfBalls() );
-
         return null;
     }
 

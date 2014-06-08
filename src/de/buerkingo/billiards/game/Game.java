@@ -6,10 +6,10 @@ import de.buerkingo.billiards.participants.Participants;
 /**
  * Represents an instance of a game.
  */
-public interface Game<EVENT extends GameEvent, RACK extends Rack, PARTICIPANT extends Participant, STATE extends GameState> {
+public interface Game<PARTICIPANT extends Participant, RACK extends Rack, STATE extends GameState> {
 
     /** Process the event. */
-    STATE processEvent( EVENT event );
+    STATE processEvent( GameEvent event );
 
     /** Get the rack. */
     RACK getRack();

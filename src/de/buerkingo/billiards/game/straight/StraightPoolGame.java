@@ -66,7 +66,9 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
             participants.getActiveParticipant().resetConsecutiveFouls();
         }
 
-        // TODO process safeties
+        if( event.isSafety() ) {
+            controlPasses = true;
+        }
 
         switch( event.getNumberOfBallsLeftInRack() ) {
             case 0:

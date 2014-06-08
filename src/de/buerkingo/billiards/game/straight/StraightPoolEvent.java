@@ -17,8 +17,7 @@ public class StraightPoolEvent implements GameEvent, Serializable {
 
     private int numberOfBallsLeftInRack;
     private Optional<Foul> foul = Optional.absent();
-
-    // TODO safeties
+    private boolean isSafety = false;
 
     /** The number of balls that are left on the table after this event. */
     public StraightPoolEvent withNumberOfBallsLeftInRack( int numberOfBallsLeftInRack ) {
@@ -35,12 +34,22 @@ public class StraightPoolEvent implements GameEvent, Serializable {
         return this;
     }
 
+    /** Event ended with a safety shot. */
+    public StraightPoolEvent withSafety() {
+        this.isSafety = true;
+        return this;
+    }
+
     public int getNumberOfBallsLeftInRack() {
         return numberOfBallsLeftInRack;
     }
 
     public Optional<Foul> getFoul() {
         return foul;
+    }
+
+    public boolean isSafety() {
+        return isSafety;
     }
 
 }

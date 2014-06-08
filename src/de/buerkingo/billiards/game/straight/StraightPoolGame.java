@@ -28,6 +28,8 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     public StraightPoolState processEvent( GameEvent event ) {
         Reject.ifNull( event );
 
+        StraightPoolParticipant participant = participants.getActiveParticipant();
+
         if( event instanceof FinishedInningEvent ) {
             // TODO
         } else if( event instanceof FinishedRackEvent ) {

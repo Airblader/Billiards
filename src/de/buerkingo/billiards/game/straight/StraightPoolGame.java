@@ -31,6 +31,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     @Override
     public StraightPoolState processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
+        Reject.ifGreaterThan( "cannot have more balls on table than before",
+            event.getNumberOfBallsLeftInRack(), rack.getCurrentNumberOfBalls() );
 
         int effectivelyScoredPoints = getEffectivelyScoredPoints( event );
         isFirstShot = false;
@@ -95,7 +97,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     }
 
     private void updateRack( StraightPoolEvent event ) {
-        rack.setCurrentNumberOfBalls( event.getNumberOfBallsLeftInRack() );
+        int numberOfBalls = event.getNumberOfBallsLeftInRack();
+        rack.setCurrentNumberOfBalls( numberOfBalls <= 1 ? StraightPoolRack.NUMBER_OF_BALLS : numberOfBalls );
     }
 
     private boolean hadAtLeastOneShotWithoutFoul( StraightPoolEvent event ) {

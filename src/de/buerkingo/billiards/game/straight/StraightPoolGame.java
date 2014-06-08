@@ -23,7 +23,8 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
-    private boolean isFirstShotAfterRerack = true;
+    // TODO replace with processed events?
+    private boolean isFirstShot = true;
 
     private StraightPoolGame( int pointsToWin ) {
         this.pointsToWin = pointsToWin;
@@ -73,14 +74,14 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         switch( event.getNumberOfBallsLeftInRack() ) {
             case 0:
             case 1:
-                isFirstShotAfterRerack = true;
+                isFirstShot = true;
                 break;
             default:
                 if( !requiresRerack ) {
                     controlPasses = true;
                 }
 
-                isFirstShotAfterRerack = false;
+                isFirstShot = false;
                 break;
         }
 
@@ -109,7 +110,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     }
 
     private FoulScenario getFoulScenario() {
-        return isFirstShotAfterRerack ? FoulScenario.FIRST_SHOT_AFTER_RERACK : FoulScenario.DEFAULT;
+        return isFirstShot ? FoulScenario.FIRST_SHOT_AFTER_RERACK : FoulScenario.DEFAULT;
     }
 
     private int getScoredPoints( StraightPoolEvent event ) {
@@ -128,7 +129,7 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
 
     @VisibleForTesting
     public boolean isFirstShotAfterRerack() {
-        return isFirstShotAfterRerack;
+        return isFirstShot;
     }
 
     public static Builder builder() {

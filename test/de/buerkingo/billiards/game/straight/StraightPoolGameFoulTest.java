@@ -48,6 +48,29 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
         assertThatParticipantHasConsecutiveFouls( PLAYER_A, 1 );
     }
 
+    @Test
+    public void givenParticipantWhenParticipantFoulsThenPenaltyIsConducted() {
+        game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( 15 )
+            .withFoul( new SimpleFoul() ) );
+
+        // TODO this should be -2 unless it wasn't the first shot
+        assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( -1 );
+    }
+
+    @Test
+    public void givenParticipantWithTwoPreviousFoulsWhenParticipantFoulsThenPenaltyIsConducted() {
+        game.getParticipants().getActiveParticipant().increaseConsecutiveFouls();
+        game.getParticipants().getActiveParticipant().increaseConsecutiveFouls();
+
+        game.processEvent( new StraightPoolEvent()
+            .withNumberOfBallsLeftInRack( 15 )
+            .withFoul( new SimpleFoul() ) );
+
+        // TODO this should be -17 unless it wasn't the first shot
+        assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( -16 );
+    }
+
     private void assertThatParticipantHasConsecutiveFouls( String name, int numberOfFouls ) {
         assertThat( getParticipant( name ).getConsecutiveFouls() ).isEqualTo( numberOfFouls );
     }

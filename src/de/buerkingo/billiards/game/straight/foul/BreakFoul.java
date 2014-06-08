@@ -24,8 +24,7 @@ public class BreakFoul implements Foul, Serializable {
 
     @Override
     public FoulReason getReason() {
-        // TODO
-        return FoulReason.UNCATEGORIZED;
+        return FoulReason.BREAK_FOUL;
     }
 
 }

@@ -1,18 +1,24 @@
 package de.buerkingo.billiards.game.straight.foul;
 
-// http://www.wpa-pool.com/web/index.asp?id=119&pagetype=rules#4.10
 public enum FoulReason {
     UNCATEGORIZED,
 
-    SCRATCHED,
-    BALL_OFF_THE_TABLE,
+    // standard fouls
+    CUE_BALL_SCRATCHED_OR_OFF_THE_TABLE,
     NO_RAIL_AFTER_CONTACT,
-    NO_FOOT_ON_THE_FLOOR,
+    NO_FOOT_ON_FLOOR,
+    BALL_DRIVEN_OFF_THE_TABLE,
     TOUCHED_BALL,
     DOUBLE_HIT,
     PUSH_SHOT,
     BALLS_STILL_MOVING,
-    SLOW_PLAY;
+    BAD_CUE_BALL_PLACEMENT,
+    BAD_PLAY_FROM_BEHIND_THE_HEAD_STRING,
+    CUE_STICK_ON_TABLE,
+    PLAYING_OUT_OF_TURN,
+    SLOW_PLAY,
 
-    // TODO use this to determine points
+    // serious fouls
+    BREAK_FOUL,
+    UNSPORTSMANLIKE_CONDUCT;
 }

@@ -7,18 +7,18 @@ import de.buerkingo.billiards.util.reject.Reject;
 /**
  * A standard foul.
  */
-public class SimpleFoul implements Foul, Serializable {
+public class StandardFoul implements Foul, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private final int pointsToDeduct;
     private final int pointsToDeductIfFirstShotAfterRerack;
 
-    public SimpleFoul() {
+    public StandardFoul() {
         this( 1, 2 );
     }
 
-    public SimpleFoul( int pointsToDeduct, int pointsToDeductIfFirstShotAfterRerack ) {
+    public StandardFoul( int pointsToDeduct, int pointsToDeductIfFirstShotAfterRerack ) {
         this.pointsToDeduct = pointsToDeduct;
         this.pointsToDeductIfFirstShotAfterRerack = pointsToDeductIfFirstShotAfterRerack;
     }

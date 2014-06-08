@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
-import de.buerkingo.billiards.game.straight.foul.SimpleFoul;
+import de.buerkingo.billiards.game.straight.foul.StandardFoul;
 import de.buerkingo.billiards.util.DataProviders;
 
 @RunWith( DataProviderRunner.class )
@@ -20,7 +20,7 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
 
         game.processEvent( new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( 15 )
-            .withFoul( new SimpleFoul() ) );
+            .withFoul( new StandardFoul() ) );
 
         assertThatParticipantHasConsecutiveFouls( PLAYER_A, 1 );
     }
@@ -46,7 +46,7 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
 
         game.processEvent( new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( 10 )
-            .withFoul( new SimpleFoul() ) );
+            .withFoul( new StandardFoul() ) );
 
         assertThatParticipantHasConsecutiveFouls( PLAYER_A, 1 );
     }
@@ -64,7 +64,7 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
 
         game.processEvent( new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( 15 )
-            .withFoul( new SimpleFoul() ) );
+            .withFoul( new StandardFoul() ) );
 
         assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( isFirstShot ? -2 : -1 );
     }
@@ -85,7 +85,7 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
 
         game.processEvent( new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( 15 )
-            .withFoul( new SimpleFoul() ) );
+            .withFoul( new StandardFoul() ) );
 
         assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( isFirstShot ? -17 : -16 );
     }

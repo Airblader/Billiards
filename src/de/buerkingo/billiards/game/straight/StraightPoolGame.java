@@ -22,7 +22,6 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
-    // TODO replace with processed events?
     private boolean isFirstShot = true;
 
     private StraightPoolGame( int pointsToWin ) {

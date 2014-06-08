@@ -34,10 +34,14 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
     public StraightPoolState processEvent( StraightPoolEvent event ) {
         Reject.ifNull( event );
 
+        int effectivelyScoredPoints = getEffectivelyScoredPoints( event );
+        isFirstShot = false;
+
         boolean controlPasses = false;
         boolean requiresRerack = false;
 
-        participants.getActiveParticipant().addPoints( getEffectivelyScoredPoints( event ) );
+        participants.getActiveParticipant().addPoints( effectivelyScoredPoints );
+
         if( activeParticipantHasWon() ) {
             return new StraightPoolState( participants.getActiveParticipant() );
         }
@@ -74,14 +78,12 @@ public class StraightPoolGame implements Game<StraightPoolEvent, StraightPoolRac
         switch( event.getNumberOfBallsLeftInRack() ) {
             case 0:
             case 1:
-                isFirstShot = true;
                 break;
             default:
                 if( !requiresRerack ) {
                     controlPasses = true;
                 }
 
-                isFirstShot = false;
                 break;
         }
 

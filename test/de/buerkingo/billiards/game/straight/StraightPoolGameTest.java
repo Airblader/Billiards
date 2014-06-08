@@ -70,11 +70,11 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
     @Test
     @UseDataProvider( value = "provideZeroOne", location = DataProviders.class )
-    public void givenGameWhenRackWasRunOutThenItIsTheFirstShot( int ballsLeft ) {
+    public void givenGameWhenRackWasRunOutThenItIsNotTheFirstShot( int ballsLeft ) {
         game.processEvent( new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( ballsLeft ) );
 
-        assertThat( game.isFirstShotAfterRerack() ).isTrue();
+        assertThat( game.isFirstShotAfterRerack() ).isFalse();
     }
 
     @Test

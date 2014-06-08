@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.game.GameEvent;
+import de.buerkingo.billiards.game.straight.events.FinishedInningEvent;
+import de.buerkingo.billiards.game.straight.events.FinishedRackEvent;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
 
@@ -25,6 +27,15 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     @Override
     public StraightPoolState processEvent( GameEvent event ) {
         Reject.ifNull( event );
+
+        if( event instanceof FinishedInningEvent ) {
+            // TODO
+        } else if( event instanceof FinishedRackEvent ) {
+            // TODO
+        } else {
+            Reject.always( "unknown event type" );
+        }
+
         return null;
     }
 

@@ -6,8 +6,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 import de.buerkingo.billiards.game.straight.foul.SimpleFoul;
+import de.buerkingo.billiards.util.DataProviders;
 
 @RunWith( DataProviderRunner.class )
 public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
@@ -50,17 +52,34 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
     }
 
     @Test
-    public void givenParticipantWhenParticipantFoulsThenPenaltyIsConducted() {
+    @UseDataProvider( value = "provideTrueFalse", location = DataProviders.class )
+    public void givenParticipantWhenParticipantFoulsThenPenaltyIsConducted( boolean isFirstShot ) {
+        if( !isFirstShot ) {
+            game.processEvent( new StraightPoolEvent()
+                .withNumberOfBallsLeftInRack( 15 ) );
+
+            game.processEvent( new StraightPoolEvent()
+                .withNumberOfBallsLeftInRack( 15 ) );
+        }
+
         game.processEvent( new StraightPoolEvent()
             .withNumberOfBallsLeftInRack( 15 )
             .withFoul( new SimpleFoul() ) );
 
-        // TODO this should be -2 unless it wasn't the first shot
-        assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( -1 );
+        assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( isFirstShot ? -2 : -1 );
     }
 
     @Test
-    public void givenParticipantWithTwoPreviousFoulsWhenParticipantFoulsThenPenaltyIsConducted() {
+    @UseDataProvider( value = "provideTrueFalse", location = DataProviders.class )
+    public void givenParticipantWithTwoPreviousFoulsWhenParticipantFoulsThenPenaltyIsConducted( boolean isFirstShot ) {
+        if( !isFirstShot ) {
+            game.processEvent( new StraightPoolEvent()
+                .withNumberOfBallsLeftInRack( 15 ) );
+
+            game.processEvent( new StraightPoolEvent()
+                .withNumberOfBallsLeftInRack( 15 ) );
+        }
+
         game.getParticipants().getActiveParticipant().increaseConsecutiveFouls();
         game.getParticipants().getActiveParticipant().increaseConsecutiveFouls();
 
@@ -68,8 +87,7 @@ public class StraightPoolGameFoulTest extends StraightPoolGameTestBase {
             .withNumberOfBallsLeftInRack( 15 )
             .withFoul( new SimpleFoul() ) );
 
-        // TODO this should be -17 unless it wasn't the first shot
-        assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( -16 );
+        assertThat( getParticipant( PLAYER_A ).getPoints() ).isEqualTo( isFirstShot ? -17 : -16 );
     }
 
     private void assertThatParticipantHasConsecutiveFouls( String name, int numberOfFouls ) {

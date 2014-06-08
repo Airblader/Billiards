@@ -6,7 +6,7 @@ package de.buerkingo.billiards.game.straight.foul;
 public interface Foul {
 
     /** The number of points to deduct for the foul. */
-    int getPointsToDeduct();
+    int getPointsToDeduct( FoulScenario scenario );
 
     /** Determines whether this foul requires a re-rack. */
     boolean requiresRerack();

@@ -7,6 +7,7 @@ import de.buerkingo.billiards.util.reject.Reject;
 /**
  * A standard foul.
  */
+// TODO maybe a foul category as defined here? http://www.wpa-pool.com/web/index.asp?id=119&pagetype=rules#4.3
 public class StandardFoul implements Foul, Serializable {
 
     private static final long serialVersionUID = 1L;

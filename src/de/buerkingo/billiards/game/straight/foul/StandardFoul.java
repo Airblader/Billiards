@@ -15,12 +15,8 @@ public class StandardFoul implements Foul, Serializable {
     private final int pointsToDeductIfFirstShotAfterRerack;
 
     public StandardFoul() {
-        this( 1, 2 );
-    }
-
-    public StandardFoul( int pointsToDeduct, int pointsToDeductIfFirstShotAfterRerack ) {
-        this.pointsToDeduct = pointsToDeduct;
-        this.pointsToDeductIfFirstShotAfterRerack = pointsToDeductIfFirstShotAfterRerack;
+        this.pointsToDeduct = 1;
+        this.pointsToDeductIfFirstShotAfterRerack = 2;
     }
 
     @Override

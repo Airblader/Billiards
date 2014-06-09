@@ -1,5 +1,6 @@
 package de.buerkingo.billiards.game.straight;
 
+import static com.google.common.collect.Iterables.filter;
 import static de.buerkingo.billiards.game.straight.StraightPoolRack.NUMBER_OF_BALLS;
 
 import java.io.Serializable;
@@ -7,6 +8,9 @@ import java.util.List;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.game.straight.foul.ConsecutiveFoulsFoul;
@@ -97,7 +101,8 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participant.getInning().end();
         }
 
-        if( hasParticipantWonByPoints( participant ) ) {
+        Optional<StraightPoolParticipant> winner = getWinner();
+        if( winner.isPresent() ) {
             // TODO handle win
             return null;
         }
@@ -111,9 +116,20 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         return null;
     }
 
-    private boolean hasParticipantWonByPoints( StraightPoolParticipant participant ) {
-        Reject.ifNull( participant );
-        return participant.getPoints() >= pointsToWin;
+    private Optional<StraightPoolParticipant> getWinner() {
+        return getWinnerByPoints().or( getWinnerByInnings() );
+    }
+
+    private Optional<StraightPoolParticipant> getWinnerByPoints() {
+        ImmutableList<StraightPoolParticipant> winner = ImmutableList.copyOf( filter( participants.getParticipants(), new Predicate<StraightPoolParticipant>() {
+            @Override
+            public boolean apply( StraightPoolParticipant participant ) {
+                return participant.getPoints() >= pointsToWin;
+            }
+        } ) );
+
+        Reject.ifGreaterThan( "two players cannot win at the same time", winner.size(), 1 );
+        return Optional.fromNullable( Iterables.getFirst( winner, null ) );
     }
 
     private Optional<StraightPoolParticipant> getWinnerByInnings() {

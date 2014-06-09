@@ -56,9 +56,12 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         switch( event.getNumberOfRemainingBalls() ) {
             case 0:
             case 1:
+                requiresRerack.on();
                 break;
             default:
-                controlPasses.on();
+                if( !requiresRerack.get() ) {
+                    controlPasses.on();
+                }
         }
 
         if( foul.isPresent() ) {
@@ -86,7 +89,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participant.resetConsecutiveFouls();
         }
 
-        if( controlPasses.get() && !requiresRerack.get() ) {
+        if( controlPasses.get() ) {
             participant.getInning().end();
         }
 

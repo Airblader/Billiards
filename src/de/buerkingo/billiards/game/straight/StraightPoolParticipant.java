@@ -45,6 +45,10 @@ public class StraightPoolParticipant implements Participant, Serializable {
         return inning;
     }
 
+    public StraightPoolInning getInning( int number ) {
+        return innings.get( number - 1 );
+    }
+
     public StraightPoolParticipant resetConsecutiveFouls() {
         consecutiveFouls = 0;
         return this;

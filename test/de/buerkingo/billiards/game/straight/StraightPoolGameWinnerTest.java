@@ -35,4 +35,20 @@ public class StraightPoolGameWinnerTest extends StraightPoolGameTestBase {
      * Then the participant can still finish his inning.
      */
 
+    @Test
+    public void givenParticipantWithHigherScoreWhenInningsLimitIsReachedThenParticipantWins() {
+        game = createGame( 100, Optional.of( 2 ) );
+
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
+        StraightPoolState state = game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
+
+        assertThat( state.isGameOver() ).isFalse();
+
+        state = game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
+
+        assertThat( state.isGameOver() ).isTrue();
+        assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_A ) );
+    }
+
 }

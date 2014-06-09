@@ -1,8 +1,9 @@
 package de.buerkingo.billiards.game.straight;
 
-import java.io.Serializable;
+import static com.google.common.collect.Lists.newArrayList;
 
-import com.google.common.base.Optional;
+import java.io.Serializable;
+import java.util.List;
 
 import de.buerkingo.billiards.game.straight.foul.Foul;
 import de.buerkingo.billiards.util.reject.Reject;
@@ -16,14 +17,14 @@ public class StraightPoolInning implements Serializable {
     private boolean hasEnded = false;
     private int points = 0;
     private boolean endedWithSafety = false;
-    private Optional<Foul> foul = Optional.absent();
+    private List<Foul> fouls = newArrayList();
 
     public StraightPoolInning( int number ) {
         this.number = number;
     }
 
     public int getEffectivePoints() {
-        return points - ( foul.isPresent() ? foul.get().getPointsToDeduct() : 0 );
+        return points - getFoulPoints();
     }
 
     public int getNumber() {
@@ -45,15 +46,20 @@ public class StraightPoolInning implements Serializable {
         return endedWithSafety;
     }
 
-    public StraightPoolInning setFoul( Foul foul ) {
+    public StraightPoolInning addFoul( Foul foul ) {
         Reject.ifNull( foul );
 
-        this.foul = Optional.of( foul );
+        fouls.add( foul );
         return this;
     }
 
-    public Optional<Foul> getFoul() {
-        return foul;
+    public int getFoulPoints() {
+        int foulPoints = 0;
+        for( Foul foul : fouls ) {
+            foulPoints += foul.getPointsToDeduct();
+        }
+
+        return foulPoints;
     }
 
     public boolean hasEnded() {

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.google.common.base.Optional;
 
 import de.buerkingo.billiards.game.Game;
+import de.buerkingo.billiards.game.straight.foul.ConsecutiveFoulsFoul;
 import de.buerkingo.billiards.game.straight.foul.Foul;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
@@ -15,6 +16,8 @@ import de.buerkingo.billiards.util.reject.Reject;
 public class StraightPoolGame implements Game<StraightPoolParticipant, StraightPoolRack, StraightPoolState>, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private static final int MAX_CONSECUTIVE_FOULS = 3;
 
     private final int pointsToWin;
     private final Optional<Integer> maxInnings;
@@ -56,14 +59,17 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         if( foul.isPresent() ) {
             controlPasses = true;
 
-            participant.getInning().setFoul( foul.get() );
+            participant.getInning().addFoul( foul.get() );
             if( foul.get().getReason().countsAsFoul() ) {
                 participant.increaseConsecutiveFouls();
             } else {
                 participant.resetConsecutiveFouls();
             }
 
-            // TODO process foul
+            if( participant.getConsecutiveFouls() == MAX_CONSECUTIVE_FOULS ) {
+                participant.getInning().addFoul( new ConsecutiveFoulsFoul() );
+                participant.resetConsecutiveFouls();
+            }
         } else {
             participant.resetConsecutiveFouls();
         }

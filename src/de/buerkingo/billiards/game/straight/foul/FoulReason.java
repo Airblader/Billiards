@@ -20,7 +20,7 @@ public enum FoulReason {
     SLOW_PLAY,
 
     BREAK_FOUL,
-
+    CONSECUTIVE_FOULS,
     UNSPORTSMANLIKE_CONDUCT;
 
     private static final ImmutableList<FoulReason> STANDARD_FOULS = ImmutableList.of(

@@ -8,6 +8,7 @@ import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.game.straight.foul.ConsecutiveFoulsFoul;
 import de.buerkingo.billiards.game.straight.foul.Foul;
 import de.buerkingo.billiards.participants.Participants;
+import de.buerkingo.billiards.util.BooleanSwitch.OnSwitch;
 import de.buerkingo.billiards.util.reject.Reject;
 
 /**
@@ -38,7 +39,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         StraightPoolParticipant participant = participants.getActiveParticipant();
 
-        boolean controlPasses = false;
+        OnSwitch controlPasses = OnSwitch.off();
 
         int pocketedBalls = rack.getCurrentNumberOfBalls() - event.getNumberOfRemainingBalls();
         if( pocketedBalls > 0 ) {
@@ -48,16 +49,16 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         if( event.endedWithSafety() ) {
             participant.getInning().endedWithSafety();
-            controlPasses = true;
+            controlPasses.on();
         }
 
         // TODO refine logic
         if( event.getNumberOfRemainingBalls() > 1 ) {
-            controlPasses = true;
+            controlPasses.on();
         }
 
         if( foul.isPresent() ) {
-            controlPasses = true;
+            controlPasses.on();
 
             participant.getInning().addFoul( foul.get() );
             if( foul.get().getReason().countsAsFoul() ) {
@@ -74,7 +75,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participant.resetConsecutiveFouls();
         }
 
-        if( controlPasses ) {
+        if( controlPasses.get() ) {
             participant.getInning().end();
         }
 
@@ -84,7 +85,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             return null;
         }
 
-        if( controlPasses ) {
+        if( controlPasses.get() ) {
             participants.turn();
         }
 

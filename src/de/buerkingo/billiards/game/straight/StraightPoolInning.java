@@ -22,6 +22,10 @@ public class StraightPoolInning implements Serializable {
         this.number = number;
     }
 
+    public int getEffectivePoints() {
+        return points - ( foul.isPresent() ? foul.get().getPointsToDeduct() : 0 );
+    }
+
     public int getNumber() {
         return number;
     }

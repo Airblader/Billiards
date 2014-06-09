@@ -59,4 +59,13 @@ public class StraightPoolParticipant implements Participant, Serializable {
         return this;
     }
 
+    public int getPoints() {
+        int points = 0;
+        for( StraightPoolInning inning : innings ) {
+            points += inning.getEffectivePoints();
+        }
+
+        return points;
+    }
+
 }

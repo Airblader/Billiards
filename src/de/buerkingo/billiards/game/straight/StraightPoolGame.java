@@ -65,7 +65,8 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participant.getInning().end();
         }
 
-        if( hasParticipantWon( participant ) ) {
+        // TODO add innings limit
+        if( hasParticipantWonByPoints( participant ) ) {
             // TODO handle win
             return null;
         }
@@ -78,16 +79,9 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         return null;
     }
 
-    private boolean hasParticipantWon( StraightPoolParticipant participant ) {
-        return hasParticipantWonByPoints( participant ) || hasParticipantWonByInnings( participant );
-    }
-
-    private boolean hasParticipantWonByInnings( StraightPoolParticipant participant ) {
-        return false;
-    }
-
     private boolean hasParticipantWonByPoints( StraightPoolParticipant participant ) {
-        return false;
+        Reject.ifNull( participant );
+        return participant.getPoints() >= pointsToWin;
     }
 
     @Override

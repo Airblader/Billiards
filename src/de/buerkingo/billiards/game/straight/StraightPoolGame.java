@@ -65,7 +65,10 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participant.getInning().end();
         }
 
-        // TODO determine win
+        if( hasParticipantWon( participant ) ) {
+            // TODO handle win
+            return null;
+        }
 
         if( controlPasses ) {
             participants.turn();
@@ -73,6 +76,18 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         // TODO return state
         return null;
+    }
+
+    private boolean hasParticipantWon( StraightPoolParticipant participant ) {
+        return hasParticipantWonByPoints( participant ) || hasParticipantWonByInnings( participant );
+    }
+
+    private boolean hasParticipantWonByInnings( StraightPoolParticipant participant ) {
+        return false;
+    }
+
+    private boolean hasParticipantWonByPoints( StraightPoolParticipant participant ) {
+        return false;
     }
 
     @Override

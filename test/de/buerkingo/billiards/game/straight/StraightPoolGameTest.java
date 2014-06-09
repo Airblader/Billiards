@@ -9,17 +9,16 @@ import com.google.common.base.Optional;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
-import de.buerkingo.billiards.game.straight.events.FinishedInningEvent;
 import de.buerkingo.billiards.game.straight.foul.Foul;
 import de.buerkingo.billiards.util.DataProviders;
 import de.buerkingo.billiards.util.reject.AssumptionException;
 
 @RunWith( DataProviderRunner.class )
-public class StraightPoolGameInningTest extends StraightPoolGameTestBase {
+public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
     @Test
-    public void givenFinishedInningWithScoredPointsWhenProcessedThenInningIsProcessedCorrectly() {
-        game.processEvents( new FinishedInningEvent( 10 ), Optional.<Foul>absent() );
+    public void givenEventWithScoredPointsWhenProcessedThenInningIsProcessedCorrectly() {
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
 
         StraightPoolParticipant participant = getParticipant( PLAYER_A );
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
@@ -31,18 +30,18 @@ public class StraightPoolGameInningTest extends StraightPoolGameTestBase {
     }
 
     @Test
-    public void givenFinishedInningWhenProcessedThenInningAdvances() {
+    public void givenEventWhenProcessedThenInningAdvances() {
         assertThat( getParticipant( PLAYER_A ).getInning().getNumber() ).isEqualTo( 1 );
 
-        game.processEvents( new FinishedInningEvent( 15 ), Optional.<Foul>absent() );
+        game.processEvents( new StraightPoolEvent( 15 ), Optional.<Foul>absent() );
 
         assertThat( getParticipant( PLAYER_A ).getInning().getNumber() ).isEqualTo( 2 );
     }
 
     @Test
     @UseDataProvider( value = "provideZeroToFifteen", location = DataProviders.class )
-    public void givenFinishedInningWithSafetysWhenProcessedThenControlPasses( int ballsLeft ) {
-        game.processEvents( new FinishedInningEvent( ballsLeft )
+    public void givenEventWithSafetysWhenProcessedThenControlPasses( int ballsLeft ) {
+        game.processEvents( new StraightPoolEvent( ballsLeft )
             .withSafety(), Optional.<Foul>absent() );
 
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
@@ -50,8 +49,8 @@ public class StraightPoolGameInningTest extends StraightPoolGameTestBase {
 
     @Test
     @UseDataProvider( value = "provideZeroToFifteen", location = DataProviders.class )
-    public void givenFinishedInningWithZeroOrOneBallsLeftThenControlDoesNotPass( int ballsLeft ) {
-        game.processEvents( new FinishedInningEvent( ballsLeft ), Optional.<Foul>absent() );
+    public void givenEventWithZeroOrOneBallsLeftThenControlDoesNotPass( int ballsLeft ) {
+        game.processEvents( new StraightPoolEvent( ballsLeft ), Optional.<Foul>absent() );
 
         assertThat( game.getParticipants().getActiveParticipant() )
             .isEqualTo( getParticipant( ballsLeft < 2 ? PLAYER_A : PLAYER_B ) );
@@ -59,23 +58,23 @@ public class StraightPoolGameInningTest extends StraightPoolGameTestBase {
 
     @Test
     @UseDataProvider( value = "provideZeroOne", location = DataProviders.class )
-    public void givenPreviousFoulWhenProcessFinishedInningThenConsecutiveFoulsAreReset( int scoredPoints ) {
+    public void givenPreviousFoulWhenProcessEventThenConsecutiveFoulsAreReset( int scoredPoints ) {
         StraightPoolParticipant participant = getParticipant( PLAYER_A );
 
         participant.increaseConsecutiveFouls();
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 1 );
 
-        game.processEvents( new FinishedInningEvent( scoredPoints ), Optional.<Foul>absent() );
+        game.processEvents( new StraightPoolEvent( scoredPoints ), Optional.<Foul>absent() );
 
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
     }
 
     @Test
-    public void givenFinishedInningWithMoreBallsThanOnTableWhenProcessedThenRejected() {
-        game.processEvents( new FinishedInningEvent( 10 ), Optional.<Foul>absent() );
+    public void givenEventWithMoreBallsThanOnTableWhenProcessedThenRejected() {
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
 
         thrown.expect( AssumptionException.class );
-        game.processEvents( new FinishedInningEvent( 13 ), Optional.<Foul>absent() );
+        game.processEvents( new StraightPoolEvent( 13 ), Optional.<Foul>absent() );
     }
 
 }

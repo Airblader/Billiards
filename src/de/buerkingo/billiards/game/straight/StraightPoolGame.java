@@ -5,9 +5,6 @@ import java.io.Serializable;
 import com.google.common.base.Optional;
 
 import de.buerkingo.billiards.game.Game;
-import de.buerkingo.billiards.game.GameEvent;
-import de.buerkingo.billiards.game.straight.events.FinishedInningEvent;
-import de.buerkingo.billiards.game.straight.events.FinishedRackEvent;
 import de.buerkingo.billiards.game.straight.foul.Foul;
 import de.buerkingo.billiards.participants.Participants;
 import de.buerkingo.billiards.util.reject.Reject;
@@ -30,51 +27,42 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         this.maxInnings = maxInnings;
     }
 
-    public StraightPoolState processEvents( GameEvent event, Optional<Foul> foul ) {
+    public StraightPoolState processEvents( StraightPoolEvent event, Optional<Foul> foul ) {
         Reject.ifNull( event );
         Reject.ifNull( foul );
+        Reject.ifGreaterThan( "there cannot be more balls left than before",
+            event.getNumberOfRemainingBalls(), rack.getCurrentNumberOfBalls() );
 
         StraightPoolParticipant participant = participants.getActiveParticipant();
 
         boolean controlPasses = false;
 
-        if( event instanceof FinishedInningEvent ) {
-            FinishedInningEvent inningEvent = (FinishedInningEvent) event;
-            Reject.ifGreaterThan( "there cannot be more balls left than before",
-                inningEvent.getNumberOfRemainingBalls(), rack.getCurrentNumberOfBalls() );
+        int pocketedBalls = rack.getCurrentNumberOfBalls() - event.getNumberOfRemainingBalls();
+        if( pocketedBalls > 0 ) {
+            participant.getInning().addPoints( pocketedBalls );
+            participant.resetConsecutiveFouls();
+        }
 
-            int pocketedBalls = rack.getCurrentNumberOfBalls() - inningEvent.getNumberOfRemainingBalls();
-            if( pocketedBalls > 0 ) {
-                participant.getInning().addPoints( pocketedBalls );
-                participant.resetConsecutiveFouls();
-            }
+        if( event.endedWithSafety() ) {
+            participant.getInning().endedWithSafety();
+            controlPasses = true;
+        }
 
-            if( inningEvent.endedWithSafety() ) {
-                participant.getInning().endedWithSafety();
-                controlPasses = true;
-            }
-
-            // TODO refine logic
-            if( inningEvent.getNumberOfRemainingBalls() > 1 ) {
-                controlPasses = true;
-            }
-
-            participant.getInning().end();
-        } else if( event instanceof FinishedRackEvent ) {
-            FinishedRackEvent rackEvent = (FinishedRackEvent) event;
-
-            // TODO handle event
-        } else {
-            Reject.always( "unknown event type" );
+        // TODO refine logic
+        if( event.getNumberOfRemainingBalls() > 1 ) {
+            controlPasses = true;
         }
 
         if( foul.isPresent() ) {
             controlPasses = true;
+
+            // TODO process foul
         } else {
             participant.resetConsecutiveFouls();
         }
 
         if( controlPasses ) {
+            participant.getInning().end();
             participants.turn();
         }
 

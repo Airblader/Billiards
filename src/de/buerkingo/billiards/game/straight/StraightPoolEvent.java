@@ -1,24 +1,21 @@
-package de.buerkingo.billiards.game.straight.events;
+package de.buerkingo.billiards.game.straight;
 
 import java.io.Serializable;
 
 import de.buerkingo.billiards.game.GameEvent;
 
-/**
- * Event that should be sent when a player finishes his inning.
- */
-public class FinishedInningEvent implements GameEvent, Serializable {
+public class StraightPoolEvent implements GameEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private final int numberOfRemainingBalls;
     private boolean endedWithSafety = false;
 
-    public FinishedInningEvent( int numberOfRemainingBalls ) {
+    public StraightPoolEvent( int numberOfRemainingBalls ) {
         this.numberOfRemainingBalls = numberOfRemainingBalls;
     }
 
-    public FinishedInningEvent withSafety() {
+    public StraightPoolEvent withSafety() {
         this.endedWithSafety = true;
         return this;
     }

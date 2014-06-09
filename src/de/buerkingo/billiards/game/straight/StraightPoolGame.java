@@ -30,38 +30,38 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         this.maxInnings = maxInnings;
     }
 
-    public StraightPoolState processEvents( GameEvent rawEvent, Optional<Foul> foul ) {
-        Reject.ifNull( rawEvent );
+    public StraightPoolState processEvents( GameEvent event, Optional<Foul> foul ) {
+        Reject.ifNull( event );
         Reject.ifNull( foul );
 
         StraightPoolParticipant participant = participants.getActiveParticipant();
 
         boolean controlPasses = false;
 
-        if( rawEvent instanceof FinishedInningEvent ) {
-            FinishedInningEvent event = (FinishedInningEvent) rawEvent;
+        if( event instanceof FinishedInningEvent ) {
+            FinishedInningEvent inningEvent = (FinishedInningEvent) event;
             Reject.ifGreaterThan( "there cannot be more balls left than before",
-                event.getNumberOfRemainingBalls(), rack.getCurrentNumberOfBalls() );
+                inningEvent.getNumberOfRemainingBalls(), rack.getCurrentNumberOfBalls() );
 
-            int pocketedBalls = rack.getCurrentNumberOfBalls() - event.getNumberOfRemainingBalls();
+            int pocketedBalls = rack.getCurrentNumberOfBalls() - inningEvent.getNumberOfRemainingBalls();
             if( pocketedBalls > 0 ) {
                 participant.getInning().addPoints( pocketedBalls );
                 participant.resetConsecutiveFouls();
             }
 
-            if( event.endedWithSafety() ) {
+            if( inningEvent.endedWithSafety() ) {
                 participant.getInning().endedWithSafety();
                 controlPasses = true;
             }
 
             // TODO refine logic
-            if( event.getNumberOfRemainingBalls() > 1 ) {
+            if( inningEvent.getNumberOfRemainingBalls() > 1 ) {
                 controlPasses = true;
             }
 
             // TODO advance inning
-        } else if( rawEvent instanceof FinishedRackEvent ) {
-            FinishedRackEvent event = (FinishedRackEvent) rawEvent;
+        } else if( event instanceof FinishedRackEvent ) {
+            FinishedRackEvent rackEvent = (FinishedRackEvent) event;
 
             // TODO handle event
         } else {

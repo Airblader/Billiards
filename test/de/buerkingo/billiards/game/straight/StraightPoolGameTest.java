@@ -147,4 +147,11 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
     }
 
+    @Test
+    @UseDataProvider( value = "provideZeroToFifteen", location = DataProviders.class )
+    public void givenEventWhenProcessedThenRackIsUpdates( int ballsLeft ) {
+        game.processEvents( new StraightPoolEvent( ballsLeft ), Optional.<Foul>absent() );
+        assertThat( game.getRack().getCurrentNumberOfBalls() ).isEqualTo( ballsLeft < 2 ? 15 : ballsLeft );
+    }
+
 }

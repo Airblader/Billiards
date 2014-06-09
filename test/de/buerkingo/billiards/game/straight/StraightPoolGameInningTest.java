@@ -12,6 +12,7 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import de.buerkingo.billiards.game.straight.events.FinishedInningEvent;
 import de.buerkingo.billiards.game.straight.foul.Foul;
 import de.buerkingo.billiards.util.DataProviders;
+import de.buerkingo.billiards.util.reject.AssumptionException;
 
 @RunWith( DataProviderRunner.class )
 public class StraightPoolGameInningTest extends StraightPoolGameTestBase {
@@ -65,6 +66,14 @@ public class StraightPoolGameInningTest extends StraightPoolGameTestBase {
         game.processEvents( new FinishedInningEvent( scoredPoints ), Optional.<Foul>absent() );
 
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
+    }
+
+    @Test
+    public void givenFinishedInningWithMoreBallsThanOnTableWhenProcessedThenRejected() {
+        game.processEvents( new FinishedInningEvent( 10 ), Optional.<Foul>absent() );
+
+        thrown.expect( AssumptionException.class );
+        game.processEvents( new FinishedInningEvent( 13 ), Optional.<Foul>absent() );
     }
 
 }

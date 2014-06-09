@@ -1,6 +1,7 @@
 package de.buerkingo.billiards.game.straight;
 
 import org.junit.Before;
+import org.junit.rules.ExpectedException;
 
 import com.google.common.base.Optional;
 
@@ -12,6 +13,8 @@ public class StraightPoolGameTestBase {
 
     public static final String PLAYER_A = "Player A";
     public static final String PLAYER_B = "Player B";
+
+    public ExpectedException thrown = ExpectedException.none();
 
     public StraightPoolGame game;
 

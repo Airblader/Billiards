@@ -63,6 +63,11 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         if( controlPasses ) {
             participant.getInning().end();
+        }
+
+        // TODO determine win
+
+        if( controlPasses ) {
             participants.turn();
         }
 

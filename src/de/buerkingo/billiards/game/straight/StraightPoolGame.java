@@ -124,7 +124,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         ImmutableList<StraightPoolParticipant> winner = ImmutableList.copyOf( filter( participants.getParticipants(), new Predicate<StraightPoolParticipant>() {
             @Override
             public boolean apply( StraightPoolParticipant participant ) {
-                return participant.getPoints() >= pointsToWin;
+                return participant.getInning().hasEnded() && participant.getPoints() >= pointsToWin;
             }
         } ) );
 
@@ -138,6 +138,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         }
 
         for( int i = 0; i < participants.getNumberOfParticipants(); i++ ) {
+            // TODO don't use maxInnings, but the latest inning, but only if >= maxInnings
             StraightPoolInning inning = participants.get( i ).getInning( maxInnings.get() );
             if( inning == null || !inning.hasEnded() ) {
                 return Optional.absent();

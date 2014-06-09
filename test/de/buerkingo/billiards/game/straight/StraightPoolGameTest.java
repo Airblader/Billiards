@@ -106,7 +106,7 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
     }
 
     @Test
-    public void givenPreviousFoulWhenProcessEventWithoutPointsAndStandardFoulThenProcessedCorrectly() {
+    public void givenPreviousFoulWhenProcessEventWithoutPointsAndStandardFoulThenConsecutiveFoulsIncrease() {
         StraightPoolParticipant participant = getParticipant( PLAYER_A );
         participant.increaseConsecutiveFouls();
 
@@ -119,7 +119,7 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
     }
 
     @Test
-    public void givenPreviousFoulWhenProcessEventWithNonStandardFoulThenProcessedCorrectly() {
+    public void givenPreviousFoulWhenProcessEventWithNonStandardFoulThenConsecutiveFoulsAreReset() {
         StraightPoolParticipant participant = getParticipant( PLAYER_A );
         participant.increaseConsecutiveFouls();
 
@@ -127,6 +127,20 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
         assertThat( participant.getPoints() ).isEqualTo( -15 );
+
+        assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
+    }
+
+    @Test
+    public void givenTwoPreviousFoulsWhenProcessEventWithStandardFoulThenConsecutiveFoulsRuleApplies() {
+        StraightPoolParticipant participant = getParticipant( PLAYER_A );
+        participant.increaseConsecutiveFouls();
+        participant.increaseConsecutiveFouls();
+
+        game.processEvents( new StraightPoolEvent( 15 ), Optional.of( new StandardFoul() ) );
+
+        assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
+        assertThat( participant.getPoints() ).isEqualTo( -16 );
 
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
     }

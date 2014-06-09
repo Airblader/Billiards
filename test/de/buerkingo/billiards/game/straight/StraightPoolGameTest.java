@@ -136,15 +136,19 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
     @Test
     public void givenTwoPreviousFoulsWhenProcessEventWithStandardFoulThenConsecutiveFoulsRuleApplies() {
         StraightPoolParticipant participant = getParticipant( PLAYER_A );
-        participant.increaseConsecutiveFouls();
-        participant.increaseConsecutiveFouls();
 
-        game.processEvents( new StraightPoolEvent( 15 ), Optional.of( new StandardFoul() ) );
+        participant.increaseConsecutiveFouls();
+        participant.increaseConsecutiveFouls();
+        game.getRack().setCurrentNumberOfBalls( 10 );
+
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.of( new StandardFoul() ) );
 
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
         assertThat( participant.getPoints() ).isEqualTo( -16 );
 
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
+
+        assertThat( game.getRack().getCurrentNumberOfBalls() ).isEqualTo( 15 );
     }
 
     @Test

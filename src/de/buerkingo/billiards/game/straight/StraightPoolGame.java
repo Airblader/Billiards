@@ -31,7 +31,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         this.maxInnings = maxInnings;
     }
 
-    public StraightPoolState processEvents( StraightPoolEvent event, Optional<Foul> foul ) {
+    public StraightPoolState processEvents( StraightPoolEvent event, Optional<? extends Foul> foul ) {
         Reject.ifNull( event );
         Reject.ifNull( foul );
         Reject.ifGreaterThan( "there cannot be more balls left than before",

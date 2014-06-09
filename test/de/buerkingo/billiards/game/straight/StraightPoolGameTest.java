@@ -10,6 +10,7 @@ import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 import de.buerkingo.billiards.game.straight.foul.Foul;
+import de.buerkingo.billiards.game.straight.foul.StandardFoul;
 import de.buerkingo.billiards.util.DataProviders;
 import de.buerkingo.billiards.util.reject.AssumptionException;
 
@@ -77,6 +78,17 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
         thrown.expect( AssumptionException.class );
         game.processEvents( new StraightPoolEvent( 13 ), Optional.<Foul>absent() );
+    }
+
+    @Test
+    public void givenStandardFoulWhenProcessEventThenProcessedCorrectly() {
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.of( new StandardFoul() ) );
+
+        StraightPoolParticipant participant = getParticipant( PLAYER_A );
+        assertThat( participant.getConsecutiveFouls() ).isEqualTo( 1 );
+        assertThat( participant.getPoints() ).isEqualTo( 4 );
+
+        assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
     }
 
 }

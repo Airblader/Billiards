@@ -10,6 +10,7 @@ import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 import de.buerkingo.billiards.game.straight.foul.Foul;
+import de.buerkingo.billiards.game.straight.foul.SeriousFoul;
 import de.buerkingo.billiards.game.straight.foul.StandardFoul;
 import de.buerkingo.billiards.util.DataProviders;
 import de.buerkingo.billiards.util.reject.AssumptionException;
@@ -113,6 +114,19 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 2 );
         assertThat( participant.getPoints() ).isEqualTo( -1 );
+
+        assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
+    }
+
+    @Test
+    public void givenPreviousFoulWhenProcessEventWithNonStandardFoulThenProcessedCorrectly() {
+        StraightPoolParticipant participant = getParticipant( PLAYER_A );
+        participant.increaseConsecutiveFouls();
+
+        game.processEvents( new StraightPoolEvent( 15 ), Optional.of( SeriousFoul.unsportsmanlikeConduct() ) );
+
+        assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
+        assertThat( participant.getPoints() ).isEqualTo( -15 );
 
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
     }

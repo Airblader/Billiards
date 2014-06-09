@@ -35,11 +35,6 @@ final public class StandardFoul implements Foul, Serializable {
     }
 
     @Override
-    public boolean countsAsFoul() {
-        return true;
-    }
-
-    @Override
     public FoulReason getReason() {
         return reason;
     }

@@ -45,6 +45,13 @@ public class StraightPoolInning implements Serializable {
         return endedWithSafety;
     }
 
+    public StraightPoolInning setFoul( Foul foul ) {
+        Reject.ifNull( foul );
+
+        this.foul = Optional.of( foul );
+        return this;
+    }
+
     public Optional<Foul> getFoul() {
         return foul;
     }

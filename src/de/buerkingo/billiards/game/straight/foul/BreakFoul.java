@@ -18,11 +18,6 @@ public class BreakFoul implements Foul, Serializable {
     }
 
     @Override
-    public boolean countsAsFoul() {
-        return false;
-    }
-
-    @Override
     public FoulReason getReason() {
         return FoulReason.BREAK_FOUL;
     }

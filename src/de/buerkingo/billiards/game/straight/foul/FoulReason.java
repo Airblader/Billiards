@@ -41,4 +41,9 @@ public enum FoulReason {
     public boolean isStandardFoul() {
         return this == UNCATEGORIZED || STANDARD_FOULS.contains( this );
     }
+
+    public boolean countsAsFoul() {
+        return isStandardFoul();
+    }
+
 }

@@ -28,12 +28,17 @@ public class StraightPoolGameWinnerTest extends StraightPoolGameTestBase {
         assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_A ) );
     }
 
-    /*
-     * TODO Missing test
-     * Given participant
-     * When participant shoots out rack and reaches points to win in doing so
-     * Then the participant can still finish his inning.
-     */
+    @Test
+    public void givenParticipantReachesPointsToWinWhenFinishingRackWhenProcessThenParticipantCanContinuePlaying() {
+        game = createGame( 5, Optional.<Integer>absent() );
+
+        StraightPoolState state = game.processEvents( new StraightPoolEvent( 1 ), Optional.<Foul>absent() );
+        assertThat( state.isGameOver() ).isFalse();
+
+        state = game.processEvents( new StraightPoolEvent( 15 ), Optional.<Foul>absent() );
+        assertThat( state.isGameOver() ).isTrue();
+        assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_A ) );
+    }
 
     @Test
     public void givenParticipantWithHigherScoreWhenInningsLimitIsReachedThenParticipantWins() {

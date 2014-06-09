@@ -13,7 +13,7 @@ public class ParticipantsTest {
 
     @Test
     public void testTurn() {
-        Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>()
+        Participants<Participant> participants = new Participants<Participant>()
             .setParticipants( createParticipant( PLAYER_A ), createParticipant( PLAYER_B ) );
         assertThat( participants.getActiveParticipant().getIdentity().getName() )
             .isEqualTo( PLAYER_A );
@@ -27,21 +27,7 @@ public class ParticipantsTest {
             .isEqualTo( PLAYER_A );
     }
 
-    @Test
-    public void testGetInningIdempotency() {
-        Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>()
-            .setParticipants( createParticipant( PLAYER_A ), createParticipant( PLAYER_B ) );
-
-        assertThat( participants.getActiveParticipant().getInning().getNumber() ).isEqualTo( 1 );
-        assertThat( participants.getActiveParticipant().getInning().getNumber() ).isEqualTo( 1 );
-
-        participants.getActiveParticipant().getInning().end();
-
-        assertThat( participants.getActiveParticipant().getInning().getNumber() ).isEqualTo( 2 );
-        assertThat( participants.getActiveParticipant().getInning().getNumber() ).isEqualTo( 2 );
-    }
-
-    private StraightPoolParticipant createParticipant( String name ) {
+    private Participant createParticipant( String name ) {
         return new StraightPoolParticipant( new Person( name ) );
     }
 

@@ -29,6 +29,8 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
         assertThat( participant.getInning( 1 ).hasEnded() ).isTrue();
         assertThat( participant.getInning( 1 ).getFoulPoints() ).isEqualTo( 0 );
         assertThat( participant.getInning( 1 ).getPoints() ).isEqualTo( 5 );
+
+        assertThat( game.getRack().getCurrentNumberOfBalls() ).isEqualTo( 10 );
     }
 
     @Test

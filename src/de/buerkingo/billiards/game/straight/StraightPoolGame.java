@@ -1,7 +1,10 @@
 package de.buerkingo.billiards.game.straight;
 
+import static de.buerkingo.billiards.game.straight.StraightPoolRack.NUMBER_OF_BALLS;
+
 import java.io.Serializable;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 
 import de.buerkingo.billiards.game.Game;
@@ -103,6 +106,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participants.turn();
         }
 
+        rack.setCurrentNumberOfBalls( requiresRerack.get() ? NUMBER_OF_BALLS : event.getNumberOfRemainingBalls() );
         // TODO return state
         return null;
     }
@@ -115,6 +119,11 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     @Override
     public Participants<StraightPoolParticipant> getParticipants() {
         return participants;
+    }
+
+    @VisibleForTesting
+    protected StraightPoolRack getRack() {
+        return rack;
     }
 
     public static Builder builder() {

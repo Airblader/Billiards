@@ -18,6 +18,7 @@ public enum FoulReason {
     CUE_STICK_ON_TABLE,
     PLAYING_OUT_OF_TURN,
     SLOW_PLAY,
+    SHOT_CLOCK_RAN_OUT,
 
     BREAK_FOUL,
     CONSECUTIVE_FOULS,
@@ -36,7 +37,8 @@ public enum FoulReason {
         BAD_PLAY_FROM_BEHIND_THE_HEAD_STRING,
         CUE_STICK_ON_TABLE,
         PLAYING_OUT_OF_TURN,
-        SLOW_PLAY );
+        SLOW_PLAY,
+        SHOT_CLOCK_RAN_OUT );
 
     public boolean isStandardFoul() {
         return this == UNCATEGORIZED || STANDARD_FOULS.contains( this );

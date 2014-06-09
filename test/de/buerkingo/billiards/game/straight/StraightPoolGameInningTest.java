@@ -54,4 +54,17 @@ public class StraightPoolGameInningTest extends StraightPoolGameTestBase {
             .isEqualTo( getParticipant( ballsLeft < 2 ? PLAYER_A : PLAYER_B ) );
     }
 
+    @Test
+    @UseDataProvider( value = "provideZeroOne", location = DataProviders.class )
+    public void givenPreviousFoulWhenProcessFinishedInningThenConsecutiveFoulsAreReset( int scoredPoints ) {
+        StraightPoolParticipant participant = getParticipant( PLAYER_A );
+
+        participant.increaseConsecutiveFouls();
+        assertThat( participant.getConsecutiveFouls() ).isEqualTo( 1 );
+
+        game.processEvents( new FinishedInningEvent( scoredPoints ), Optional.<Foul>absent() );
+
+        assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
+    }
+
 }

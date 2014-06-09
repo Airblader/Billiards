@@ -70,6 +70,8 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         if( foul.isPresent() ) {
             controlPasses = true;
+        } else {
+            participant.resetConsecutiveFouls();
         }
 
         if( controlPasses ) {

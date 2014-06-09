@@ -124,13 +124,16 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
     public void givenPreviousFoulWhenProcessEventWithNonStandardFoulThenConsecutiveFoulsAreReset() {
         StraightPoolParticipant participant = getParticipant( PLAYER_A );
         participant.increaseConsecutiveFouls();
+        game.getRack().setCurrentNumberOfBalls( 10 );
 
-        game.processEvents( new StraightPoolEvent( 15 ), Optional.of( SeriousFoul.unsportsmanlikeConduct() ) );
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.of( SeriousFoul.unsportsmanlikeConduct() ) );
 
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
         assertThat( participant.getPoints() ).isEqualTo( -15 );
 
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
+
+        assertThat( game.getRack().getCurrentNumberOfBalls() ).isEqualTo( 15 );
     }
 
     @Test

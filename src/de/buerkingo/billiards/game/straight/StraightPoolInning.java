@@ -13,6 +13,7 @@ public class StraightPoolInning implements Serializable {
 
     private final int number;
 
+    private boolean hasEnded = false;
     private int points = 0;
     private boolean endedWithSafety = false;
     private Optional<Foul> foul = Optional.absent();
@@ -42,6 +43,15 @@ public class StraightPoolInning implements Serializable {
 
     public Optional<Foul> getFoul() {
         return foul;
+    }
+
+    public boolean hasEnded() {
+        return hasEnded;
+    }
+
+    public StraightPoolInning end() {
+        hasEnded = true;
+        return this;
     }
 
 }

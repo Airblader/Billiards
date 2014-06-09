@@ -36,7 +36,13 @@ public class StraightPoolParticipant implements Participant, Serializable {
     }
 
     public StraightPoolInning getInning() {
-        return Iterables.getLast( innings );
+        StraightPoolInning inning = Iterables.getLast( innings );
+        if( inning.hasEnded() ) {
+            innings.add( new StraightPoolInning( inning.getNumber() + 1 ) );
+            return getInning();
+        }
+
+        return inning;
     }
 
     public StraightPoolParticipant resetConsecutiveFouls() {

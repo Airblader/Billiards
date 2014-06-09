@@ -59,7 +59,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
                 controlPasses = true;
             }
 
-            // TODO advance inning
+            participant.getInning().end();
         } else if( event instanceof FinishedRackEvent ) {
             FinishedRackEvent rackEvent = (FinishedRackEvent) event;
 

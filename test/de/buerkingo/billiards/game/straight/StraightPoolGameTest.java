@@ -40,11 +40,12 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
     @Test
     @UseDataProvider( value = "provideZeroToFifteen", location = DataProviders.class )
-    public void givenEventWithSafetysWhenProcessedThenControlPasses( int ballsLeft ) {
+    public void givenEventWithSafetyWhenProcessedThenControlPasses( int ballsLeft ) {
         game.processEvents( new StraightPoolEvent( ballsLeft )
             .withSafety(), Optional.<Foul>absent() );
 
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
+        assertThat( getParticipant( PLAYER_A ).getInning().getNumber() ).isEqualTo( 2 );
     }
 
     @Test
@@ -54,6 +55,7 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
         assertThat( game.getParticipants().getActiveParticipant() )
             .isEqualTo( getParticipant( ballsLeft < 2 ? PLAYER_A : PLAYER_B ) );
+        assertThat( getParticipant( PLAYER_A ).getInning().getNumber() ).isEqualTo( ballsLeft < 2 ? 1 : 2 );
     }
 
     @Test

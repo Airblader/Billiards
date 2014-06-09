@@ -59,6 +59,8 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participant.getInning().setFoul( foul.get() );
             if( foul.get().getReason().countsAsFoul() ) {
                 participant.increaseConsecutiveFouls();
+            } else {
+                participant.resetConsecutiveFouls();
             }
 
             // TODO process foul

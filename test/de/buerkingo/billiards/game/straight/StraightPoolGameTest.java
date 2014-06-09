@@ -91,4 +91,30 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
     }
 
+    @Test
+    public void givenPreviousFoulWhenProcessEventWithPointsAndStandardFoulThenProcessedCorrectly() {
+        StraightPoolParticipant participant = getParticipant( PLAYER_A );
+        participant.increaseConsecutiveFouls();
+
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.of( new StandardFoul() ) );
+
+        assertThat( participant.getConsecutiveFouls() ).isEqualTo( 1 );
+        assertThat( participant.getPoints() ).isEqualTo( 4 );
+
+        assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
+    }
+
+    @Test
+    public void givenPreviousFoulWhenProcessEventWithoutPointsAndStandardFoulThenProcessedCorrectly() {
+        StraightPoolParticipant participant = getParticipant( PLAYER_A );
+        participant.increaseConsecutiveFouls();
+
+        game.processEvents( new StraightPoolEvent( 15 ), Optional.of( new StandardFoul() ) );
+
+        assertThat( participant.getConsecutiveFouls() ).isEqualTo( 2 );
+        assertThat( participant.getPoints() ).isEqualTo( -1 );
+
+        assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
+    }
+
 }

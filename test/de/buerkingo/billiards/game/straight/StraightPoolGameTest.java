@@ -2,6 +2,7 @@ package de.buerkingo.billiards.game.straight;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,13 +19,18 @@ import de.buerkingo.billiards.util.reject.AssumptionException;
 @RunWith( DataProviderRunner.class )
 public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
+    @Before
+    public void before() {
+        game = createGame( 60, Optional.<Integer>absent() );
+    }
+
     @Test
     public void givenEventWithScoredPointsWhenProcessedThenInningIsProcessedCorrectly() {
         game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
 
         StraightPoolParticipant participant = getParticipant( PLAYER_A );
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
-        assertThat( participant.getInning().getNumber() ).isEqualTo( 2 );
+        assertThat( participant.getInningOrNew().getNumber() ).isEqualTo( 2 );
 
         assertThat( participant.getInning( 1 ).hasEnded() ).isTrue();
         assertThat( participant.getInning( 1 ).getFoulPoints() ).isEqualTo( 0 );
@@ -35,11 +41,11 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
     @Test
     public void givenEventWhenProcessedThenInningAdvances() {
-        assertThat( getParticipant( PLAYER_A ).getInning().getNumber() ).isEqualTo( 1 );
+        assertThat( getParticipant( PLAYER_A ).getInningOrNew().getNumber() ).isEqualTo( 1 );
 
         game.processEvents( new StraightPoolEvent( 15 ), Optional.<Foul>absent() );
 
-        assertThat( getParticipant( PLAYER_A ).getInning().getNumber() ).isEqualTo( 2 );
+        assertThat( getParticipant( PLAYER_A ).getInningOrNew().getNumber() ).isEqualTo( 2 );
     }
 
     @Test
@@ -49,7 +55,7 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
             .withSafety(), Optional.<Foul>absent() );
 
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( getParticipant( PLAYER_B ) );
-        assertThat( getParticipant( PLAYER_A ).getInning().getNumber() ).isEqualTo( 2 );
+        assertThat( getParticipant( PLAYER_A ).getInningOrNew().getNumber() ).isEqualTo( 2 );
     }
 
     @Test
@@ -59,7 +65,7 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
 
         assertThat( game.getParticipants().getActiveParticipant() )
             .isEqualTo( getParticipant( ballsLeft < 2 ? PLAYER_A : PLAYER_B ) );
-        assertThat( getParticipant( PLAYER_A ).getInning().getNumber() ).isEqualTo( ballsLeft < 2 ? 1 : 2 );
+        assertThat( getParticipant( PLAYER_A ).getInningOrNew().getNumber() ).isEqualTo( ballsLeft < 2 ? 1 : 2 );
     }
 
     @Test

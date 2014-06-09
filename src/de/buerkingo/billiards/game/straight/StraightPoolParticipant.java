@@ -44,14 +44,19 @@ public class StraightPoolParticipant implements Participant, Serializable {
         return consecutiveFouls;
     }
 
-    public StraightPoolInning getInning() {
-        StraightPoolInning inning = Iterables.getLast( innings );
+    /** Guaranteed to return an open inning. If the last inning has ended, a new one will be appended and returned. */
+    public StraightPoolInning getInningOrNew() {
+        StraightPoolInning inning = getLastInning();
         if( inning.hasEnded() ) {
             innings.add( new StraightPoolInning( inning.getNumber() + 1 ) );
-            return getInning();
+            return getInningOrNew();
         }
 
         return inning;
+    }
+
+    public StraightPoolInning getLastInning() {
+        return Iterables.getLast( innings );
     }
 
     public StraightPoolInning getInning( int number ) {

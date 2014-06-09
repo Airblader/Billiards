@@ -52,12 +52,12 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         int pocketedBalls = rack.getCurrentNumberOfBalls() - event.getNumberOfRemainingBalls();
         if( pocketedBalls > 0 ) {
-            participant.getInning().addPoints( pocketedBalls );
+            participant.getInningOrNew().addPoints( pocketedBalls );
             participant.resetConsecutiveFouls();
         }
 
         if( event.endedWithSafety() ) {
-            participant.getInning().endedWithSafety();
+            participant.getInningOrNew().endedWithSafety();
             controlPasses.on();
         }
 
@@ -75,7 +75,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         if( foul.isPresent() ) {
             controlPasses.on();
 
-            participant.getInning().addFoul( foul.get() );
+            participant.getInningOrNew().addFoul( foul.get() );
 
             if( foul.get().requiresRerack() ) {
                 requiresRerack.on();
@@ -88,7 +88,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             }
 
             if( participant.getConsecutiveFouls() == MAX_CONSECUTIVE_FOULS ) {
-                participant.getInning().addFoul( new ConsecutiveFoulsFoul() );
+                participant.getInningOrNew().addFoul( new ConsecutiveFoulsFoul() );
                 participant.resetConsecutiveFouls();
 
                 requiresRerack.on();
@@ -98,7 +98,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         }
 
         if( controlPasses.get() ) {
-            participant.getInning().end();
+            participant.getInningOrNew().end();
         }
 
         Optional<StraightPoolParticipant> winner = getWinner();
@@ -123,7 +123,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         ImmutableList<StraightPoolParticipant> winner = ImmutableList.copyOf( filter( participants.getParticipants(), new Predicate<StraightPoolParticipant>() {
             @Override
             public boolean apply( StraightPoolParticipant participant ) {
-                return participant.getInning().hasEnded() && participant.getPoints() >= pointsToWin;
+                return participant.getLastInning().hasEnded() && participant.getPoints() >= pointsToWin;
             }
         } ) );
 

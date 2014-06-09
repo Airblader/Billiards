@@ -17,13 +17,13 @@ public class StraightPoolParticipantTest {
         Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>()
             .setParticipants( createParticipant( PLAYER_A ), createParticipant( PLAYER_B ) );
 
-        assertThat( participants.getActiveParticipant().getInning().getNumber() ).isEqualTo( 1 );
-        assertThat( participants.getActiveParticipant().getInning().getNumber() ).isEqualTo( 1 );
+        assertThat( participants.getActiveParticipant().getInningOrNew().getNumber() ).isEqualTo( 1 );
+        assertThat( participants.getActiveParticipant().getInningOrNew().getNumber() ).isEqualTo( 1 );
 
-        participants.getActiveParticipant().getInning().end();
+        participants.getActiveParticipant().getInningOrNew().end();
 
-        assertThat( participants.getActiveParticipant().getInning().getNumber() ).isEqualTo( 2 );
-        assertThat( participants.getActiveParticipant().getInning().getNumber() ).isEqualTo( 2 );
+        assertThat( participants.getActiveParticipant().getInningOrNew().getNumber() ).isEqualTo( 2 );
+        assertThat( participants.getActiveParticipant().getInningOrNew().getNumber() ).isEqualTo( 2 );
     }
 
     private StraightPoolParticipant createParticipant( String name ) {

@@ -1,6 +1,5 @@
 package de.buerkingo.billiards.game.straight;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
@@ -19,15 +18,6 @@ public class StraightPoolGameTestBase {
     public ExpectedException thrown = ExpectedException.none();
 
     public StraightPoolGame game;
-
-    @Before
-    public void before() {
-        game = createGame();
-    }
-
-    public StraightPoolGame createGame() {
-        return createGame( 60, Optional.<Integer>absent() );
-    }
 
     public StraightPoolGame createGame( int pointsToWin, Optional<Integer> maxInnings ) {
         Builder gameBuilder = StraightPoolGame.builder()

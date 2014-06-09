@@ -103,8 +103,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         Optional<StraightPoolParticipant> winner = getWinner();
         if( winner.isPresent() ) {
-            // TODO handle win
-            return null;
+            return new StraightPoolState( winner.get() );
         }
 
         if( controlPasses.get() ) {

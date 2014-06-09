@@ -24,6 +24,8 @@ public class StraightPoolGameInningTest extends StraightPoolGameTestBase {
         StraightPoolParticipant participant = getParticipant( PLAYER_A );
         assertThat( participant.getConsecutiveFouls() ).isEqualTo( 0 );
         assertThat( participant.getInning().getNumber() ).isEqualTo( 2 );
+
+        assertThat( participant.getInning( 1 ).hasEnded() ).isTrue();
         assertThat( participant.getInning( 1 ).getFoul().isPresent() ).isFalse();
         assertThat( participant.getInning( 1 ).getPoints() ).isEqualTo( 5 );
     }

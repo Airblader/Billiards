@@ -32,6 +32,10 @@ public class Participants<T extends Participant> implements Serializable {
         return get( activeParticipant );
     }
 
+    public List<T> getParticipants() {
+        return participants;
+    }
+
     public int getNumberOfParticipants() {
         return numberOfParticipants;
     }

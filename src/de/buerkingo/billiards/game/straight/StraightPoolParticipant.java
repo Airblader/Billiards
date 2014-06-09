@@ -5,7 +5,9 @@ import static com.google.common.collect.Lists.newArrayList;
 import java.io.Serializable;
 import java.util.List;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 
 import de.buerkingo.billiards.participants.Identity;
 import de.buerkingo.billiards.participants.Participant;
@@ -21,6 +23,13 @@ public class StraightPoolParticipant implements Participant, Serializable {
 
     private final List<StraightPoolInning> innings = newArrayList( new StraightPoolInning( 1 ) );
     private int consecutiveFouls = 0;
+
+    public static final Ordering<StraightPoolParticipant> BY_POINTS = Ordering.natural().onResultOf( new Function<StraightPoolParticipant, Integer>() {
+        @Override
+        public Integer apply( StraightPoolParticipant participant ) {
+            return participant.getPoints();
+        }
+    } );
 
     public StraightPoolParticipant( Identity identity ) {
         this.identity = identity;
@@ -46,7 +55,7 @@ public class StraightPoolParticipant implements Participant, Serializable {
     }
 
     public StraightPoolInning getInning( int number ) {
-        return innings.get( number - 1 );
+        return Iterables.get( innings, number - 1, null );
     }
 
     public StraightPoolParticipant increaseConsecutiveFouls() {

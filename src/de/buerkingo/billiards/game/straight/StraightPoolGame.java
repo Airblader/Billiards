@@ -3,6 +3,7 @@ package de.buerkingo.billiards.game.straight;
 import static de.buerkingo.billiards.game.straight.StraightPoolRack.NUMBER_OF_BALLS;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
@@ -96,7 +97,6 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participant.getInning().end();
         }
 
-        // TODO add innings limit
         if( hasParticipantWonByPoints( participant ) ) {
             // TODO handle win
             return null;
@@ -114,6 +114,23 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     private boolean hasParticipantWonByPoints( StraightPoolParticipant participant ) {
         Reject.ifNull( participant );
         return participant.getPoints() >= pointsToWin;
+    }
+
+    private Optional<StraightPoolParticipant> getWinnerByInnings() {
+        if( !maxInnings.isPresent() ) {
+            return Optional.absent();
+        }
+
+        for( int i = 0; i < participants.getNumberOfParticipants(); i++ ) {
+            StraightPoolInning inning = participants.get( i ).getInning( maxInnings.get() );
+            if( inning == null || !inning.hasEnded() ) {
+                return Optional.absent();
+            }
+        }
+
+        List<StraightPoolParticipant> topTwo = StraightPoolParticipant.BY_POINTS.greatestOf( participants.getParticipants(), 2 );
+        return ( topTwo.get( 0 ).getPoints() == topTwo.get( 1 ).getPoints() )
+                ? Optional.<StraightPoolParticipant>absent() : Optional.of( topTwo.get( 0 ) );
     }
 
     @Override

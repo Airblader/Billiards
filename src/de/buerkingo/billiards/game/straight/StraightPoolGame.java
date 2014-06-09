@@ -40,6 +40,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         StraightPoolParticipant participant = participants.getActiveParticipant();
 
         OnSwitch controlPasses = OnSwitch.off();
+        OnSwitch requiresRerack = OnSwitch.off();
 
         int pocketedBalls = rack.getCurrentNumberOfBalls() - event.getNumberOfRemainingBalls();
         if( pocketedBalls > 0 ) {
@@ -61,6 +62,11 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             controlPasses.on();
 
             participant.getInning().addFoul( foul.get() );
+
+            if( foul.get().requiresRerack() ) {
+                requiresRerack.on();
+            }
+
             if( foul.get().getReason().countsAsFoul() ) {
                 participant.increaseConsecutiveFouls();
             } else {
@@ -70,12 +76,14 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             if( participant.getConsecutiveFouls() == MAX_CONSECUTIVE_FOULS ) {
                 participant.getInning().addFoul( new ConsecutiveFoulsFoul() );
                 participant.resetConsecutiveFouls();
+
+                requiresRerack.on();
             }
         } else {
             participant.resetConsecutiveFouls();
         }
 
-        if( controlPasses.get() ) {
+        if( controlPasses.get() && !requiresRerack.get() ) {
             participant.getInning().end();
         }
 

@@ -47,6 +47,7 @@ public class Participants<T extends Participant> implements Serializable {
 
     public Participants<T> setParticipants( T... participants ) {
         Reject.ifNull( participants );
+        Reject.ifLessThan( "must set at least two participants", participants.length, 2 );
         Reject.ifNotEmpty( "can only set participants once", this.participants );
 
         numberOfParticipants = participants.length;

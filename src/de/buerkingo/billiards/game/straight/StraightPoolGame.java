@@ -53,9 +53,12 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             controlPasses.on();
         }
 
-        // TODO refine logic
-        if( event.getNumberOfRemainingBalls() > 1 ) {
-            controlPasses.on();
+        switch( event.getNumberOfRemainingBalls() ) {
+            case 0:
+            case 1:
+                break;
+            default:
+                controlPasses.on();
         }
 
         if( foul.isPresent() ) {

@@ -51,4 +51,27 @@ public class StraightPoolGameWinnerTest extends StraightPoolGameTestBase {
         assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_A ) );
     }
 
+    @Test
+    public void givenParticipantsWithEqualScoresWhenInningsLimitIsReachedThenGameContinuesUntilScored() {
+        game = createGame( 100, Optional.of( 2 ) );
+
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
+        game.processEvents( new StraightPoolEvent( 5 ), Optional.<Foul>absent() );
+        game.processEvents( new StraightPoolEvent( 5 ), Optional.<Foul>absent() );
+        StraightPoolState state = game.processEvents( new StraightPoolEvent( 5 ), Optional.<Foul>absent() );
+
+        assertThat( state.isGameOver() ).isFalse();
+
+        game.processEvents( new StraightPoolEvent( 5 ), Optional.<Foul>absent() );
+        state = game.processEvents( new StraightPoolEvent( 5 ), Optional.<Foul>absent() );
+
+        assertThat( state.isGameOver() ).isFalse();
+
+        game.processEvents( new StraightPoolEvent( 5 ), Optional.<Foul>absent() );
+        state = game.processEvents( new StraightPoolEvent( 4 ), Optional.<Foul>absent() );
+
+        assertThat( state.isGameOver() ).isTrue();
+        assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_B ) );
+    }
+
 }

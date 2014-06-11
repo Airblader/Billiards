@@ -12,5 +12,7 @@
 	<classpathentry kind="lib" path="lib/fest-assert-1.4/fest-assert-1.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib/fest-assert-1.4/fest-assert-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/junit-dataprovider-1.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/jgiven/jgiven-core-0.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/jgiven/jgiven-junit-0.2.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -19,4 +19,19 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
         then().control_passes_to( JANE );
     }
 
+    @Test
+    public void an_inning_with_some_scored_points_is_processed_correctly() {
+        given().a_straight_pool_game()
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_misses_with_$_balls_left_on_the_table( JACK, 10 );
+
+        then().$_has_$_points( JACK, 5 )
+            .and().$_has_no_fouls( JACK )
+            .and().$_has_$_consecutive_fouls( JACK, 0 )
+            .and().the_inning_is_over_for( JACK )
+            .and().there_are_$_balls_on_the_table( 10 )
+            .and().control_passes_to( JANE );
+    }
+
 }

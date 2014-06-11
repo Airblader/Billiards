@@ -3,6 +3,7 @@
 	<classpathentry kind="output" path="bin"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry sourcepath="GRADLE_USER_HOME/caches/artifacts-23/filestore/com.google.guava/guava/17.0/source/7ca0efbeb87ca845b5d7a0ac9c21a4b7b95f7b28/guava-17.0-sources.jar" kind="var" path="GRADLE_USER_HOME/caches/artifacts-23/filestore/com.google.guava/guava/17.0/bundle/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar" exported="true"/>
 	<classpathentry sourcepath="GRADLE_USER_HOME/caches/artifacts-23/filestore/org.easytesting/fest-assert/1.4/source/c4f4f784a5b3fd0bbb519ca5b109066b11cbb390/fest-assert-1.4-sources.jar" kind="var" path="GRADLE_USER_HOME/caches/artifacts-23/filestore/org.easytesting/fest-assert/1.4/jar/88ec2d3bbc35a2e9613f584b29e26adb1bc2c515/fest-assert-1.4.jar" exported="true"/>
 	<classpathentry sourcepath="GRADLE_USER_HOME/caches/artifacts-23/filestore/org.easytesting/fest-util/1.2.5/source/51c853a963c33e146d5b4461d28e740a42483224/fest-util-1.2.5-sources.jar" kind="var" path="GRADLE_USER_HOME/caches/artifacts-23/filestore/org.easytesting/fest-util/1.2.5/jar/c4a8d7305b23b8d043be12c979813b096df11f44/fest-util-1.2.5.jar" exported="true"/>

@@ -34,16 +34,6 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
     }
 
     @Test
-    @UseDataProvider( value = "provideZeroToFifteen", location = DataProviders.class )
-    public void givenEventWithZeroOrOneBallsLeftThenControlDoesNotPass( int ballsLeft ) {
-        game.processEvents( new StraightPoolEvent( ballsLeft ), Optional.<Foul>absent() );
-
-        assertThat( game.getParticipants().getActiveParticipant() )
-            .isEqualTo( getParticipant( ballsLeft < 2 ? PLAYER_A : PLAYER_B ) );
-        assertThat( getParticipant( PLAYER_A ).getInningOrNew().getNumber() ).isEqualTo( ballsLeft < 2 ? 1 : 2 );
-    }
-
-    @Test
     @UseDataProvider( value = "provideZeroOne", location = DataProviders.class )
     public void givenPreviousFoulWhenProcessEventThenConsecutiveFoulsAreReset( int scoredPoints ) {
         StraightPoolParticipant participant = getParticipant( PLAYER_A );

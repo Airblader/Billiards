@@ -15,6 +15,10 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
     @ExpectedScenarioState
     public Map<String, StraightPoolParticipant> participants;
 
+    public SELF $_is_still_at_the_table( String name ) {
+        return control_passes_to( name );
+    }
+
     public SELF control_passes_to( String name ) {
         assertThat( game.getParticipants().getActiveParticipant() ).isEqualTo( participants.get( name ) );
         return self();

@@ -16,13 +16,25 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
     private static final String JANE = "Jane";
 
     @Test
-    public void control_passes_after_a_shot() {
+    @UseDataProvider( value = "provideTwoToFifteen", location = DataProviders.class )
+    public void control_passes_after_a_shot_if_more_than_one_ball_is_left( int ballsLeftOnTableAfterInning ) {
         given().a_straight_pool_game()
             .and().$_plays_against_$( JACK, JANE );
 
-        when().$_misses_with_$_balls_left_on_the_table( JACK, 15 );
+        when().$_misses_with_$_balls_left_on_the_table( JACK, ballsLeftOnTableAfterInning );
 
         then().control_passes_to( JANE );
+    }
+
+    @Test
+    @UseDataProvider( value = "provideZeroOne", location = DataProviders.class )
+    public void control_does_not_pass_after_a_shot_if_less_than_two_balls_are_left( int ballsLeftOnTableAfterInning ) {
+        given().a_straight_pool_game()
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_misses_with_$_balls_left_on_the_table( JACK, ballsLeftOnTableAfterInning );
+
+        then().$_is_still_at_the_table( JACK );
     }
 
     @Test

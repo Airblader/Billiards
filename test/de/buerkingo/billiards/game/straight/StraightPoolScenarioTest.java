@@ -1,9 +1,15 @@
 package de.buerkingo.billiards.game.straight;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import com.tngtech.jgiven.junit.ScenarioTest;
 
+import de.buerkingo.billiards.util.DataProviders;
+
+@RunWith( DataProviderRunner.class )
 public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>, WhenStraightPool<?>, ThenStraightPool<?>> {
 
     private static final String JACK = "Jack";
@@ -32,6 +38,18 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
             .and().the_inning_is_over_for( JACK )
             .and().there_are_$_balls_on_the_table( 10 )
             .and().control_passes_to( JANE );
+    }
+
+    @Test
+    @UseDataProvider( value = "provideZeroToFifteen", location = DataProviders.class )
+    public void a_safety_always_causes_the_control_to_pass( int ballsLeftOnTableAfterInning ) {
+        given().a_straight_pool_game()
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_misses_with_$_balls_left_on_the_table( JACK, ballsLeftOnTableAfterInning )
+            .and().the_inning_ends_with_a_safety();
+
+        then().control_passes_to( JANE );
     }
 
 }

@@ -25,10 +25,21 @@ public class WhenStraightPool<SELF extends WhenStraightPool<?>> extends Stage<SE
         return self();
     }
 
+    public SELF the_inning_ends_with_a_safety() {
+        rejectIfEventHasNotBeenCreated();
+        event.withSafety();
+
+        return self();
+    }
+
     @AfterStage
     public void processEvent() {
-        Reject.ifNull( event );
+        rejectIfEventHasNotBeenCreated();
         game.processEvents( event, Optional.<Foul>absent() );
+    }
+
+    private void rejectIfEventHasNotBeenCreated() {
+        Reject.ifNull( event );
     }
 
 }

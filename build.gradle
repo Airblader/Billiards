@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+jar {
+    baseName = 'Billiards'
+    version = '0.0.1'
+}
+
+eclipse {
+    pathVariables 'GRADLE_USER_HOME': gradle.gradleUserHomeDir
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "com.google.guava:guava:17.+"
+
+    compile "org.easytesting:fest-assert:1.4"
+    compile "org.easytesting:fest-util:1.2.+"
+
+    compile "com.tngtech.java:junit-dataprovider:1.6.0"
+    compile "com.tngtech.jgiven:jgiven-junit:+"
+}

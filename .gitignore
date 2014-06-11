@@ -1,4 +1,6 @@
 *.class
+*.json
+
 /bin
 build/
 .gradle/

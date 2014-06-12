@@ -64,4 +64,76 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
         then().control_passes_to( JANE );
     }
 
+    @Test
+    public void consecutive_fouls_are_increased_if_a_foul_occured() {
+        given().a_straight_pool_game()
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 15 )
+            .and().the_inning_ends_with_a_foul();
+
+        then().$_has_$_consecutive_fouls( JACK, 1 )
+            .and().$_gets_$_points_deducted( JACK, 1 )
+            .and().control_passes_to( JANE );
+    }
+
+    @Test
+    public void consecutive_fouls_are_reset_and_then_increased_if_a_foul_occured_after_making_some_points() {
+        given().a_straight_pool_game()
+            .and().$_plays_against_$( JACK, JANE )
+            .and().$_has_$_consecutive_fouls_already( JACK, 2 );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 )
+            .and().the_inning_ends_with_a_foul();
+
+        then().$_has_$_consecutive_fouls( JACK, 1 )
+            .and().$_gets_$_points_deducted( JACK, 1 )
+            .and().control_passes_to( JANE );
+    }
+
+    @Test
+    public void consecutive_fouls_are_reset_if_no_foul_occured() {
+        given().a_straight_pool_game()
+            .and().$_plays_against_$( JACK, JANE )
+            .and().$_has_$_consecutive_fouls_already( JACK, 2 );
+
+        when().$_misses_with_$_balls_left_on_the_table( JACK, 15 );
+
+        then().$_has_$_consecutive_fouls( JACK, 0 )
+            .and().$_gets_$_points_deducted( JACK, 0 )
+            .and().control_passes_to( JANE );
+    }
+
+    @Test
+    public void consecutive_fouls_are_reset_and_the_table_is_reracked_if_a_non_standard_foul_occured() {
+        given().a_straight_pool_game()
+            .and().$_plays_against_$( JACK, JANE )
+            .and().there_are_$_balls_on_the_table( 10 )
+            .and().$_has_$_consecutive_fouls_already( JACK, 2 );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 )
+            .and().the_inning_ends_with_a_serious_foul();
+
+        then().$_has_$_consecutive_fouls( JACK, 0 )
+            .and().$_gets_$_points_deducted( JACK, 15 )
+            .and().there_are_$_balls_on_the_table( 15 )
+            .and().control_passes_to( JANE );
+    }
+
+    @Test
+    public void three_consecutive_fouls_lead_to_the_three_foul_rule_being_applied() {
+        given().a_straight_pool_game()
+            .and().$_plays_against_$( JACK, JANE )
+            .and().there_are_$_balls_on_the_table( 10 )
+            .and().$_has_$_consecutive_fouls_already( JACK, 2 );
+
+        when().$_misses_with_$_balls_left_on_the_table( JACK, 10 )
+            .and().the_inning_ends_with_a_foul();
+
+        then().$_has_$_consecutive_fouls( JACK, 0 )
+            .and().$_gets_$_points_deducted( JACK, 16 )
+            .and().there_are_$_balls_on_the_table( 15 )
+            .and().control_passes_to( JANE );
+    }
+
 }

@@ -8,6 +8,8 @@ import com.tngtech.jgiven.annotation.AfterStage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 
 import de.buerkingo.billiards.game.straight.foul.Foul;
+import de.buerkingo.billiards.game.straight.foul.SeriousFoul;
+import de.buerkingo.billiards.game.straight.foul.StandardFoul;
 import de.buerkingo.billiards.util.reject.Reject;
 
 public class WhenStraightPool<SELF extends WhenStraightPool<?>> extends Stage<SELF> {
@@ -19,9 +21,24 @@ public class WhenStraightPool<SELF extends WhenStraightPool<?>> extends Stage<SE
     public Map<String, StraightPoolParticipant> participants;
 
     private StraightPoolEvent event;
+    private Optional<? extends Foul> foul = Optional.absent();
 
     public SELF $_misses_with_$_balls_left_on_the_table( String name, int balls ) {
+        return $_finishes_with_$_balls_left_on_the_table( name, balls );
+    }
+
+    public SELF $_finishes_with_$_balls_left_on_the_table( String name, int balls ) {
         event = new StraightPoolEvent( balls );
+        return self();
+    }
+
+    public SELF the_inning_ends_with_a_foul() {
+        foul = Optional.of( new StandardFoul() );
+        return self();
+    }
+
+    public SELF the_inning_ends_with_a_serious_foul() {
+        foul = Optional.of( SeriousFoul.unsportsmanlikeConduct() );
         return self();
     }
 
@@ -35,7 +52,7 @@ public class WhenStraightPool<SELF extends WhenStraightPool<?>> extends Stage<SE
     @AfterStage
     public void processEvent() {
         rejectIfEventHasNotBeenCreated();
-        game.processEvents( event, Optional.<Foul>absent() );
+        game.processEvents( event, foul );
     }
 
     private void rejectIfEventHasNotBeenCreated() {

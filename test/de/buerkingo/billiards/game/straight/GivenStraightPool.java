@@ -44,6 +44,21 @@ public class GivenStraightPool<SELF extends GivenStraightPool<?>> extends Stage<
         return self();
     }
 
+    public SELF $_has_$_consecutive_fouls_already( String name, int fouls ) {
+        for( int i = 1; i <= fouls; i++ ) {
+            participants.get( name ).increaseConsecutiveFouls();
+        }
+
+        return self();
+    }
+
+    public SELF there_are_$_balls_on_the_table( int balls ) {
+        rejectIfGameHasNotBeenCreated();
+        game.getRack().setCurrentNumberOfBalls( balls );
+
+        return self();
+    }
+
     private StraightPoolParticipant createParticipant( String name ) {
         StraightPoolParticipant participant = new StraightPoolParticipant( new Person( name ) );
         participants.put( name, participant );

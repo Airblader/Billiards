@@ -186,7 +186,7 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
 
     @Test
     public void the_game_does_not_end_upon_reaching_the_innings_limit_until_one_player_has_more_points() {
-        given().a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( 60, 2 )
+        given().a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings_and_$_extension_innings( 60, 2, 1 )
             .and().$_plays_against_$( JACK, JANE );
 
         when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 ).processEvent()

@@ -11,36 +11,6 @@ import de.buerkingo.billiards.game.straight.foul.Foul;
 public class StraightPoolGameWinnerTest extends StraightPoolGameTestBase {
 
     @Test
-    public void givenParticipantReachesPointsToWinExactlyWhenProcessThenParticipantWins() {
-        game = createGame( 5, Optional.<Integer>absent() );
-        StraightPoolState state = game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
-
-        assertThat( state.isGameOver() ).isTrue();
-        assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_A ) );
-    }
-
-    @Test
-    public void givenParticipantReachesMorePointsThanPointsToWinWhenProcessThenParticipantWins() {
-        game = createGame( 5, Optional.<Integer>absent() );
-        StraightPoolState state = game.processEvents( new StraightPoolEvent( 5 ), Optional.<Foul>absent() );
-
-        assertThat( state.isGameOver() ).isTrue();
-        assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_A ) );
-    }
-
-    @Test
-    public void givenParticipantReachesPointsToWinWhenFinishingRackWhenProcessThenParticipantCanContinuePlaying() {
-        game = createGame( 5, Optional.<Integer>absent() );
-
-        StraightPoolState state = game.processEvents( new StraightPoolEvent( 1 ), Optional.<Foul>absent() );
-        assertThat( state.isGameOver() ).isFalse();
-
-        state = game.processEvents( new StraightPoolEvent( 15 ), Optional.<Foul>absent() );
-        assertThat( state.isGameOver() ).isTrue();
-        assertThat( state.getWinner() ).isEqualTo( getParticipant( PLAYER_A ) );
-    }
-
-    @Test
     public void givenParticipantWithHigherScoreWhenInningsLimitIsReachedThenParticipantWins() {
         game = createGame( 100, Optional.of( 2 ) );
 

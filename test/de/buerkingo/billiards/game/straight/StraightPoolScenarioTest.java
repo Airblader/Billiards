@@ -127,13 +127,46 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
             .and().there_are_$_balls_on_the_table( 10 )
             .and().$_has_$_consecutive_fouls_already( JACK, 2 );
 
-        when().$_misses_with_$_balls_left_on_the_table( JACK, 10 )
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 )
             .and().the_inning_ends_with_a_foul();
 
         then().$_has_$_consecutive_fouls( JACK, 0 )
             .and().$_gets_$_points_deducted( JACK, 16 )
             .and().there_are_$_balls_on_the_table( 15 )
             .and().control_passes_to( JANE );
+    }
+
+    @Test
+    public void the_game_ends_when_a_player_reaches_the_point_limit() {
+        given().a_straight_pool_game_with_a_$_points_limit( 10 )
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 5 );
+
+        then().$_wins_the_game( JACK );
+    }
+
+    @Test
+    public void the_game_ends_when_a_player_overshoots_the_point_limit() {
+        given().a_straight_pool_game_with_a_$_points_limit( 10 )
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 3 );
+
+        then().$_wins_the_game( JACK );
+    }
+
+    @Test
+    public void the_game_does_not_end_until_the_inning_is_finished() {
+        given().a_straight_pool_game_with_a_$_points_limit( 5 )
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 1 );
+        then().the_game_is_not_over();
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 15 )
+            .processEvent();
+        then().$_wins_the_game( JACK );
     }
 
 }

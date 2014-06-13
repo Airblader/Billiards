@@ -6,6 +6,8 @@ import com.google.common.base.Optional;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.AfterStage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
+import com.tngtech.jgiven.annotation.Hidden;
+import com.tngtech.jgiven.annotation.ProvidedScenarioState;
 
 import de.buerkingo.billiards.game.straight.foul.Foul;
 import de.buerkingo.billiards.game.straight.foul.SeriousFoul;
@@ -19,6 +21,9 @@ public class WhenStraightPool<SELF extends WhenStraightPool<?>> extends Stage<SE
 
     @ExpectedScenarioState
     public Map<String, StraightPoolParticipant> participants;
+
+    @ProvidedScenarioState
+    public StraightPoolState state;
 
     private StraightPoolEvent event;
     private Optional<? extends Foul> foul = Optional.absent();
@@ -50,9 +55,10 @@ public class WhenStraightPool<SELF extends WhenStraightPool<?>> extends Stage<SE
     }
 
     @AfterStage
+    @Hidden
     public void processEvent() {
         rejectIfEventHasNotBeenCreated();
-        game.processEvents( event, foul );
+        state = game.processEvents( event, foul );
     }
 
     private void rejectIfEventHasNotBeenCreated() {

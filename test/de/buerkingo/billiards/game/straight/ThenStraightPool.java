@@ -7,6 +7,8 @@ import java.util.Map;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 
+import de.buerkingo.billiards.util.reject.Reject;
+
 public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SELF> {
 
     @ExpectedScenarioState
@@ -14,6 +16,9 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
 
     @ExpectedScenarioState
     public Map<String, StraightPoolParticipant> participants;
+
+    @ExpectedScenarioState
+    public StraightPoolState state;
 
     public SELF $_is_still_at_the_table( String name ) {
         return control_passes_to( name );
@@ -52,6 +57,25 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
     public SELF the_inning_is_over_for( String name ) {
         assertThat( participants.get( name ).getLastInning().hasEnded() ).isTrue();
         return self();
+    }
+
+    public SELF the_game_is_not_over() {
+        rejectIfThereIsNoState();
+        assertThat( state.isGameOver() ).isFalse();
+
+        return self();
+    }
+
+    public SELF $_wins_the_game( String name ) {
+        rejectIfThereIsNoState();
+        assertThat( state.isGameOver() ).isTrue();
+        assertThat( state.getWinner() ).isEqualTo( participants.get( name ) );
+
+        return self();
+    }
+
+    private void rejectIfThereIsNoState() {
+        Reject.ifNull( state );
     }
 
 }

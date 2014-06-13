@@ -137,9 +137,8 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         }
 
         for( int i = 0; i < participants.getNumberOfParticipants(); i++ ) {
-            // TODO don't use maxInnings, but the latest inning, but only if >= maxInnings
-            StraightPoolInning inning = participants.get( i ).getInning( maxInnings.get() );
-            if( inning == null || !inning.hasEnded() ) {
+            StraightPoolInning inning = participants.get( i ).getLastInning();
+            if( inning == null || inning.getNumber() < maxInnings.get() || !inning.hasEnded() ) {
                 return Optional.absent();
             }
         }

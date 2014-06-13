@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'eclipse'
 
 sourceSets {
     main {
@@ -20,10 +19,6 @@ jar {
     version = '0.0.1'
 }
 
-eclipse {
-    pathVariables 'GRADLE_USER_HOME': gradle.gradleUserHomeDir
-}
-
 repositories {
     mavenCentral()
 }
@@ -39,3 +34,10 @@ dependencies {
 
     testCompile "junit:junit:4.+"
 }
+
+task copyDependencies(type: Copy) {
+    from configurations.runtime
+    into 'lib'
+}
+
+build.dependsOn copyDependencies

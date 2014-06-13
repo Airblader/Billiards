@@ -40,6 +40,15 @@ public class StraightPoolGameTest extends StraightPoolGameTestBase {
     }
 
     @Test
+    public void givenEventAfterGameIsOverWhenProcessedThenRejected() {
+        game = createGame( 5, Optional.<Integer>absent() );
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
+
+        thrown.expect( AssumptionException.class );
+        game.processEvents( new StraightPoolEvent( 10 ), Optional.<Foul>absent() );
+    }
+
+    @Test
     @UseDataProvider( value = "provideZeroToFifteen", location = DataProviders.class )
     public void givenEventWhenProcessedThenRackIsUpdates( int ballsLeft ) {
         game.processEvents( new StraightPoolEvent( ballsLeft ), Optional.<Foul>absent() );

@@ -34,6 +34,8 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
+    private OnSwitch gameOver = OnSwitch.off();
+
     private StraightPoolGame( int pointsToWin, Optional<Integer> maxInnings ) {
         this.pointsToWin = pointsToWin;
         this.maxInnings = maxInnings;
@@ -44,7 +46,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         Reject.ifNull( foul );
         Reject.ifGreaterThan( "there cannot be more balls left than before",
             event.getNumberOfRemainingBalls(), rack.getCurrentNumberOfBalls() );
-        // TODO reject events if game is over
+        Reject.ifTrue( "game is already over", gameOver.get() );
 
         StraightPoolParticipant participant = participants.getActiveParticipant();
 
@@ -104,6 +106,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         Optional<StraightPoolParticipant> winner = getWinner();
         if( winner.isPresent() ) {
+            gameOver.on();
             return new StraightPoolState( winner.get() );
         }
 

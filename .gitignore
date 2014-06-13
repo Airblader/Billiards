@@ -1,8 +1,8 @@
 *.class
-*.json
 
 /bin
 build/
 lib/
+jgiven-reports/
 
 .gradle/

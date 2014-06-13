@@ -35,9 +35,30 @@ dependencies {
     testCompile "junit:junit:4.+"
 }
 
+test {
+    systemProperty 'jgiven.report.text', 'true'
+}
+
 task copyDependencies(type: Copy) {
     from configurations.runtime
     into 'lib'
 }
 
+task generateReports(type: JavaExec, dependsOn: 'test') {
+    main 'com.tngtech.jgiven.report.html.HtmlReportGenerator'
+    classpath 'lib/*'
+    args "--dir=jgiven-reports --todir=jgiven-reports".split().toList()
+}
+
 build.dependsOn copyDependencies
+build.doLast {
+    tasks.generateReports.execute()
+}
+
+task cleanLibAndReports(type: Delete) {
+    delete 'lib', 'jgiven-reports'
+}
+
+clean.dependsOn cleanLibAndReports
+
+defaultTasks 'build'

@@ -175,10 +175,10 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         }
 
         public Builder withMaxInnings( int maxInnings ) {
-            return withInningsLimit( maxInnings, 1 );
+            return withInningsLimit( maxInnings, Optional.<Integer>absent() );
         }
 
-        public Builder withInningsLimit( int maxInnings, int extension ) {
+        public Builder withInningsLimit( int maxInnings, Optional<Integer> extension ) {
             Reject.ifEqual( "must have a positive number of innings", maxInnings, 0 );
 
             this.inningsLimit = Optional.of( new InningsLimit( maxInnings, extension ) );

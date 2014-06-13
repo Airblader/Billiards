@@ -42,7 +42,7 @@ public class GivenStraightPool<SELF extends GivenStraightPool<?>> extends Stage<
         Builder gameBuilder = StraightPoolGame.builder()
             .withPointsToWin( pointsToWin.or( 60 ) );
         if( maxInnings.isPresent() ) {
-            gameBuilder.withInningsLimit( maxInnings.get(), extension.or( 1 ) );
+            gameBuilder.withInningsLimit( maxInnings.get(), extension );
         }
 
         game = gameBuilder.get();

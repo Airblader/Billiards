@@ -29,16 +29,16 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     private static final int MAX_CONSECUTIVE_FOULS = 3;
 
     private final int pointsToWin;
-    private final Optional<Integer> maxInnings;
+    private final Optional<InningsLimit> inningsLimit;
 
     private final StraightPoolRack rack = new StraightPoolRack();
     private final Participants<StraightPoolParticipant> participants = new Participants<StraightPoolParticipant>();
 
     private OnSwitch gameOver = OnSwitch.off();
 
-    private StraightPoolGame( int pointsToWin, Optional<Integer> maxInnings ) {
+    private StraightPoolGame( int pointsToWin, Optional<InningsLimit> inningsLimit ) {
         this.pointsToWin = pointsToWin;
-        this.maxInnings = maxInnings;
+        this.inningsLimit = inningsLimit;
     }
 
     public StraightPoolState processEvents( StraightPoolEvent event, Optional<? extends Foul> foul ) {
@@ -135,13 +135,13 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
     }
 
     private Optional<StraightPoolParticipant> getWinnerByInnings() {
-        if( !maxInnings.isPresent() ) {
+        if( !inningsLimit.isPresent() ) {
             return Optional.absent();
         }
 
         for( int i = 0; i < participants.getNumberOfParticipants(); i++ ) {
             StraightPoolInning inning = participants.get( i ).getLastInning();
-            if( inning == null || inning.getNumber() < maxInnings.get() || !inning.hasEnded() ) {
+            if( inning == null || inning.getNumber() < inningsLimit.get().getMaxInnings() || !inning.hasEnded() ) {
                 return Optional.absent();
             }
         }
@@ -167,7 +167,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
     public static class Builder {
         private int pointsToWin;
-        private Optional<Integer> maxInnings = Optional.absent();
+        private Optional<InningsLimit> inningsLimit = Optional.absent();
 
         public Builder withPointsToWin( int pointsToWin ) {
             this.pointsToWin = pointsToWin;
@@ -175,16 +175,20 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         }
 
         public Builder withMaxInnings( int maxInnings ) {
+            return withInningsLimit( maxInnings, 1 );
+        }
+
+        public Builder withInningsLimit( int maxInnings, int extension ) {
             Reject.ifEqual( "must have a positive number of innings", maxInnings, 0 );
 
-            this.maxInnings = Optional.of( maxInnings );
+            this.inningsLimit = Optional.of( new InningsLimit( maxInnings, extension ) );
             return this;
         }
 
         public StraightPoolGame get() {
             Reject.ifEqual( "points needed to win need to be set", pointsToWin, 0 );
 
-            return new StraightPoolGame( pointsToWin, maxInnings );
+            return new StraightPoolGame( pointsToWin, inningsLimit );
         }
     }
 

@@ -6,6 +6,12 @@ public class BreakFoul implements Foul, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private final boolean withRerack;
+
+    public BreakFoul( boolean withRerack ) {
+        this.withRerack = withRerack;
+    }
+
     @Override
     public int getPointsToDeduct() {
         return 2;
@@ -13,8 +19,7 @@ public class BreakFoul implements Foul, Serializable {
 
     @Override
     public boolean requiresRerack() {
-        // TODO
-        return false;
+        return withRerack;
     }
 
     @Override

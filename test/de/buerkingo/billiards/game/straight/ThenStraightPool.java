@@ -69,7 +69,8 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
     public SELF $_wins_the_game( String name ) {
         rejectIfThereIsNoState();
         assertThat( state.isGameOver() ).isTrue();
-        assertThat( state.getWinner() ).isEqualTo( participants.get( name ) );
+        assertThat( state.getWinners() ).hasSize( 1 );
+        assertThat( state.getWinners().get( 0 ) ).isEqualTo( participants.get( name ) );
 
         return self();
     }

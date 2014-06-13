@@ -10,7 +10,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 
 import de.buerkingo.billiards.game.Game;
 import de.buerkingo.billiards.game.straight.foul.ConsecutiveFoulsFoul;
@@ -104,10 +103,9 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             participant.getInningOrNew().end();
         }
 
-        Optional<StraightPoolParticipant> winner = getWinner();
-        if( winner.isPresent() ) {
+        if( gameHasEnded() ) {
             gameOver.on();
-            return new StraightPoolState( winner.get() );
+            return new StraightPoolState( getLeadersByScore() );
         }
 
         if( controlPasses.get() ) {
@@ -118,11 +116,26 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         return new StraightPoolState( participant, requiresRerack.get() );
     }
 
-    private Optional<StraightPoolParticipant> getWinner() {
-        return getWinnerByPoints().or( getWinnerByInnings() );
+    private List<StraightPoolParticipant> getLeadersByScore() {
+        int score = 0;
+        for( StraightPoolParticipant participant : participants.getParticipants() ) {
+            score = Math.max( score, participant.getPoints() );
+        }
+
+        final int highestScore = score;
+        return ImmutableList.copyOf( filter( participants.getParticipants(), new Predicate<StraightPoolParticipant>() {
+            @Override
+            public boolean apply( StraightPoolParticipant participant ) {
+                return participant.getPoints() >= highestScore;
+            }
+        } ) );
     }
 
-    private Optional<StraightPoolParticipant> getWinnerByPoints() {
+    private boolean gameHasEnded() {
+        return gameHasEndedDueToPointsLimit() || gameHasEndedDueToInningsLimit();
+    }
+
+    private boolean gameHasEndedDueToPointsLimit() {
         ImmutableList<StraightPoolParticipant> winner = ImmutableList.copyOf( filter( participants.getParticipants(), new Predicate<StraightPoolParticipant>() {
             @Override
             public boolean apply( StraightPoolParticipant participant ) {
@@ -130,28 +143,32 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             }
         } ) );
 
-        Reject.ifGreaterThan( "two players cannot win at the same time", winner.size(), 1 );
-        return Optional.fromNullable( Iterables.getFirst( winner, null ) );
+        return !winner.isEmpty();
     }
 
-    private Optional<StraightPoolParticipant> getWinnerByInnings() {
+    private boolean gameHasEndedDueToInningsLimit() {
         if( !inningsLimit.isPresent() ) {
-            return Optional.absent();
+            return false;
         }
 
-        // TODO if extension is absent, a draw must be possible
-        Reject.ifAbsent( inningsLimit.get().getExtension() );
-
+        Optional<Integer> extension = inningsLimit.get().getExtension();
         for( int i = 0; i < participants.getNumberOfParticipants(); i++ ) {
             StraightPoolInning inning = participants.get( i ).getLastInning();
-            if( inning == null || inning.getNumber() < inningsLimit.get().getMaxInnings() || !inning.hasEnded() ) {
-                return Optional.absent();
+            if( inning == null || !inning.hasEnded() ) {
+                return false;
+            }
+
+            if( inning.getNumber() < inningsLimit.get().getMaxInnings() ) {
+                return false;
+            }
+
+            if( extension.isPresent() && ( inning.getNumber() - inningsLimit.get().getMaxInnings() ) % extension.get() != 0 ) {
+                return false;
             }
         }
 
-        List<StraightPoolParticipant> topTwo = StraightPoolParticipant.BY_POINTS.greatestOf( participants.getParticipants(), 2 );
-        return ( topTwo.get( 0 ).getPoints() == topTwo.get( 1 ).getPoints() )
-                ? Optional.<StraightPoolParticipant>absent() : Optional.of( topTwo.get( 0 ) );
+        List<StraightPoolParticipant> byPoints = StraightPoolParticipant.BY_POINTS.greatestOf( participants.getParticipants(), 2 );
+        return !extension.isPresent() || byPoints.get( 0 ).getPoints() != byPoints.get( 1 ).getPoints();
     }
 
     @Override

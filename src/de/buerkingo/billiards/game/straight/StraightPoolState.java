@@ -1,45 +1,47 @@
 package de.buerkingo.billiards.game.straight;
 
-import java.io.Serializable;
+import static com.google.common.collect.Lists.newArrayList;
 
-import com.google.common.base.Optional;
+import java.io.Serializable;
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 
 import de.buerkingo.billiards.game.GameState;
-import de.buerkingo.billiards.participants.Participant;
 import de.buerkingo.billiards.util.reject.Reject;
 
 public class StraightPoolState implements GameState, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Participant activeParticipant;
+    private final StraightPoolParticipant activeParticipant;
     private final boolean hasRerack;
 
-    private final Optional<Participant> winner;
+    private final List<StraightPoolParticipant> winners;
 
-    public StraightPoolState( Participant activeParticipant, boolean hasRerack ) {
+    public StraightPoolState( StraightPoolParticipant activeParticipant, boolean hasRerack ) {
         this.activeParticipant = activeParticipant;
         this.hasRerack = hasRerack;
 
-        this.winner = Optional.absent();
+        this.winners = newArrayList();
     }
 
-    public StraightPoolState( Participant winner ) {
-        this.winner = Optional.of( winner );
+    public StraightPoolState( List<StraightPoolParticipant> winners ) {
+        this.winners = ImmutableList.copyOf( winners );
 
         this.activeParticipant = null;
         this.hasRerack = false;
     }
 
     /** Returns the participant which is active after the processed event. */
-    public Participant getActiveParticipant() {
+    public StraightPoolParticipant getActiveParticipant() {
         return activeParticipant;
     }
 
-    /** Returns the winning participant in case the game is over. */
-    public Participant getWinner() {
+    /** Returns the winning participants in case the game is over. */
+    public List<StraightPoolParticipant> getWinners() {
         Reject.ifFalse( "game is not over, cannot determine winner", isGameOver() );
-        return winner.get();
+        return winners;
     }
 
     /** Determines whether the processed event requires a re-rack. */
@@ -49,7 +51,7 @@ public class StraightPoolState implements GameState, Serializable {
 
     /** Returns whether the game is over. */
     public boolean isGameOver() {
-        return winner.isPresent();
+        return !winners.isEmpty();
     }
 
 }

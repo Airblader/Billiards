@@ -40,7 +40,7 @@ public class StraightPoolState implements GameState, Serializable {
 
     /** Returns the winning participants in case the game is over. */
     public List<StraightPoolParticipant> getWinners() {
-        Reject.ifFalse( "game is not over, cannot determine winner", isGameOver() );
+        Reject.ifFalse( "game is not over, cannot determine winners", isGameOver() );
         return winners;
     }
 

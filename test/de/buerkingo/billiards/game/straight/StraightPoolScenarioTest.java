@@ -240,4 +240,15 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
             .and().$_wins_the_game( JACK );
     }
 
+    @Test
+    public void a_game_without_extension_draws_when_the_innings_limit_is_reached() {
+        given().a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( 60, 1 )
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 5 );
+        then().$_has_$_points( JACK, 5 )
+            .and().$_has_$_points( JANE, 5 )
+            .and().the_game_ends_with_a_draw();
+    }
 }

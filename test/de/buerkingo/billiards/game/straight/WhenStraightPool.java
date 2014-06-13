@@ -56,9 +56,11 @@ public class WhenStraightPool<SELF extends WhenStraightPool<?>> extends Stage<SE
 
     @AfterStage
     @Hidden
-    public void processEvent() {
+    public SELF processEvent() {
         rejectIfEventHasNotBeenCreated();
         state = game.processEvents( event, foul );
+
+        return self();
     }
 
     private void rejectIfEventHasNotBeenCreated() {

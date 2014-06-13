@@ -164,9 +164,47 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
         when().$_finishes_with_$_balls_left_on_the_table( JACK, 1 );
         then().the_game_is_not_over();
 
-        when().$_finishes_with_$_balls_left_on_the_table( JACK, 15 )
-            .processEvent();
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 15 ).processEvent();
         then().$_wins_the_game( JACK );
     }
 
+    @Test
+    public void the_game_ends_if_the_innings_limit_is_reached() {
+        given().a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( 60, 2 )
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 10 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JACK, 10 );
+        then().$_has_$_points( JACK, 5 )
+            .and().$_has_$_points( JANE, 0 )
+            .and().the_game_is_not_over();
+
+        when().$_finishes_with_$_balls_left_on_the_table( JANE, 10 ).processEvent();
+        then().$_wins_the_game( JACK );
+    }
+
+    @Test
+    public void the_game_does_not_end_upon_reaching_the_innings_limit_until_one_player_has_more_points() {
+        given().a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( 60, 2 )
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 5 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JACK, 5 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 5 );
+        then().$_has_$_points( JACK, 5 )
+            .and().$_has_$_points( JANE, 5 )
+            .and().the_game_is_not_over();
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 5 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 5 ).processEvent();
+        then().the_game_is_not_over();
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 5 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 4 ).processEvent();
+        then().$_has_$_points( JACK, 5 )
+            .and().$_has_$_points( JANE, 6 )
+            .and().$_wins_the_game( JANE );
+    }
 }

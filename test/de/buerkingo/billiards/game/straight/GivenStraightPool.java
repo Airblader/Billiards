@@ -28,7 +28,11 @@ public class GivenStraightPool<SELF extends GivenStraightPool<?>> extends Stage<
         return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.of( pointsToWin ), Optional.<Integer>absent() );
     }
 
-    public SELF a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional<Integer> pointsToWin, Optional<Integer> maxInnings ) {
+    public SELF a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( int pointsToWin, int maxInnings ) {
+        return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.of( pointsToWin ), Optional.of( maxInnings ) );
+    }
+
+    private SELF a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional<Integer> pointsToWin, Optional<Integer> maxInnings ) {
         Builder gameBuilder = StraightPoolGame.builder()
             .withPointsToWin( pointsToWin.or( 60 ) );
         if( maxInnings.isPresent() ) {

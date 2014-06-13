@@ -139,6 +139,9 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
             return Optional.absent();
         }
 
+        // TODO if extension is absent, a draw must be possible
+        Reject.ifAbsent( inningsLimit.get().getExtension() );
+
         for( int i = 0; i < participants.getNumberOfParticipants(); i++ ) {
             StraightPoolInning inning = participants.get( i ).getLastInning();
             if( inning == null || inning.getNumber() < inningsLimit.get().getMaxInnings() || !inning.hasEnded() ) {

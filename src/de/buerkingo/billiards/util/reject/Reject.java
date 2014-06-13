@@ -4,6 +4,8 @@ import static java.lang.String.format;
 
 import java.util.List;
 
+import com.google.common.base.Optional;
+
 public class Reject {
 
     public static AssumptionException always() {
@@ -112,6 +114,28 @@ public class Reject {
     public static void ifNotEmpty( String description, List<?> list ) {
         ifNull( list );
         if( !list.isEmpty() ) {
+            reject( description );
+        }
+    }
+
+    public static void ifPresent( Optional<?> optional ) {
+        ifPresent( "expected to be absent", optional );
+    }
+
+    public static void ifPresent( String description, Optional<?> optional ) {
+        ifNull( optional );
+        if( optional.isPresent() ) {
+            reject( description );
+        }
+    }
+
+    public static void ifAbsent( Optional<?> optional ) {
+        ifAbsent( "expected to be present", optional );
+    }
+
+    public static void ifAbsent( String description, Optional<?> optional ) {
+        ifNull( optional );
+        if( !optional.isPresent() ) {
             reject( description );
         }
     }

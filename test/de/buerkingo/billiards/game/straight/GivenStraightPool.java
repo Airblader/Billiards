@@ -21,22 +21,28 @@ public class GivenStraightPool<SELF extends GivenStraightPool<?>> extends Stage<
     public Map<String, StraightPoolParticipant> participants = newHashMap();
 
     public SELF a_straight_pool_game() {
-        return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.<Integer>absent(), Optional.<Integer>absent() );
+        return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.<Integer>absent() );
     }
 
     public SELF a_straight_pool_game_with_a_$_points_limit( int pointsToWin ) {
-        return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.of( pointsToWin ), Optional.<Integer>absent() );
+        return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.of( pointsToWin ), Optional.<Integer>absent(), Optional.<Integer>absent() );
     }
 
     public SELF a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( int pointsToWin, int maxInnings ) {
-        return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.of( pointsToWin ), Optional.of( maxInnings ) );
+        return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.of( pointsToWin ), Optional.of( maxInnings ), Optional.<Integer>absent() );
     }
 
-    private SELF a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional<Integer> pointsToWin, Optional<Integer> maxInnings ) {
+    public SELF a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings_and_$_extension_innings( int pointsToWin, int maxInnings, int extension ) {
+        return a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional.of( pointsToWin ), Optional.of( maxInnings ), Optional.of( extension ) );
+    }
+
+    private SELF a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings( Optional<Integer> pointsToWin, Optional<Integer> maxInnings, Optional<Integer> extension ) {
+        Reject.ifTrue( extension.isPresent() && !maxInnings.isPresent() );
+
         Builder gameBuilder = StraightPoolGame.builder()
             .withPointsToWin( pointsToWin.or( 60 ) );
         if( maxInnings.isPresent() ) {
-            gameBuilder.withMaxInnings( maxInnings.get() );
+            gameBuilder.withInningsLimit( maxInnings.get(), extension.or( 1 ) );
         }
 
         game = gameBuilder.get();

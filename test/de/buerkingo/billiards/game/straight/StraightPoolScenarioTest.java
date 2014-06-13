@@ -207,4 +207,37 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
             .and().$_has_$_points( JANE, 6 )
             .and().$_wins_the_game( JANE );
     }
+
+    @Test
+    public void the_game_does_not_end_upon_reaching_the_innings_limit_until_the_number_of_extension_innings_is_played() {
+        given().a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings_and_$_extension_innings( 60, 1, 2 )
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 5 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JACK, 5 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 4 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JACK, 4 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 4 );
+        then().$_has_$_points( JACK, 5 )
+            .and().$_has_$_points( JANE, 6 )
+            .and().$_wins_the_game( JANE );
+    }
+
+    @Test
+    public void a_player_can_win_a_game_during_extension_even_if_they_lagged_behind() {
+        given().a_straight_pool_game_with_a_$_points_limit_and_at_most_$_innings_and_$_extension_innings( 60, 1, 2 )
+            .and().$_plays_against_$( JACK, JANE );
+
+        when().$_finishes_with_$_balls_left_on_the_table( JACK, 10 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 5 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JACK, 5 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 4 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JACK, 2 ).processEvent()
+            .and().$_finishes_with_$_balls_left_on_the_table( JANE, 2 );
+        then().$_has_$_points( JACK, 7 )
+            .and().$_has_$_points( JANE, 6 )
+            .and().$_wins_the_game( JACK );
+    }
+
 }

@@ -1,7 +1,5 @@
 package de.buerkingo.billiards.game.straight;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,23 +14,14 @@ public class StraightPoolState implements GameState, Serializable {
 
     private final List<StraightPoolParticipant> winners;
 
-    public StraightPoolState() {
-        this.winners = newArrayList();
-    }
-
     public StraightPoolState( List<StraightPoolParticipant> winners ) {
+        Reject.ifEmpty( winners );
         this.winners = ImmutableList.copyOf( winners );
     }
 
     /** Returns the winning participants in case the game is over. */
     public List<StraightPoolParticipant> getWinners() {
-        Reject.ifFalse( "game is not over, cannot determine winners", isGameOver() );
         return winners;
-    }
-
-    /** Returns whether the game is over. */
-    public boolean isGameOver() {
-        return !winners.isEmpty();
     }
 
 }

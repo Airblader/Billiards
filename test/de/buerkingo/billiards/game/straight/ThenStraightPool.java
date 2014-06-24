@@ -4,6 +4,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.Map;
 
+import com.google.common.base.Optional;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 
@@ -18,7 +19,7 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
     public Map<String, StraightPoolParticipant> participants;
 
     @ExpectedScenarioState
-    public StraightPoolState state;
+    public Optional<StraightPoolState> state;
 
     public SELF $_is_still_at_the_table( String name ) {
         return control_passes_to( name );
@@ -61,24 +62,24 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
 
     public SELF the_game_is_not_over() {
         rejectIfThereIsNoState();
-        assertThat( state.isGameOver() ).isFalse();
+        assertThat( state.isPresent() ).isFalse();
 
         return self();
     }
 
     public SELF the_game_ends_with_a_draw() {
         rejectIfThereIsNoState();
-        assertThat( state.isGameOver() ).isTrue();
-        assertThat( state.getWinners() ).hasSize( 2 );
+        assertThat( state.isPresent() ).isTrue();
+        assertThat( state.get().getWinners() ).hasSize( 2 );
 
         return self();
     }
 
     public SELF $_wins_the_game( String name ) {
         rejectIfThereIsNoState();
-        assertThat( state.isGameOver() ).isTrue();
-        assertThat( state.getWinners() ).hasSize( 1 );
-        assertThat( state.getWinners().get( 0 ) ).isEqualTo( participants.get( name ) );
+        assertThat( state.isPresent() ).isTrue();
+        assertThat( state.get().getWinners() ).hasSize( 1 );
+        assertThat( state.get().getWinners().get( 0 ) ).isEqualTo( participants.get( name ) );
 
         return self();
     }

@@ -40,7 +40,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         this.inningsLimit = inningsLimit;
     }
 
-    public StraightPoolState processEvents( StraightPoolEvent event, Optional<? extends Foul> foul ) {
+    public Optional<StraightPoolState> processEvents( StraightPoolEvent event, Optional<? extends Foul> foul ) {
         Reject.ifNull( event );
         Reject.ifNull( foul );
         Reject.ifGreaterThan( "there cannot be more balls left than before",
@@ -108,7 +108,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         if( gameHasEnded() ) {
             gameOver.on();
-            return new StraightPoolState( getLeadersByScore() );
+            return Optional.of( new StraightPoolState( getLeadersByScore() ) );
         }
 
         if( controlPasses.get() ) {
@@ -116,7 +116,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         }
 
         rack.setCurrentNumberOfBalls( requiresRerack.get() ? NUMBER_OF_BALLS : event.getNumberOfRemainingBalls() );
-        return new StraightPoolState();
+        return Optional.absent();
     }
 
     private List<StraightPoolParticipant> getLeadersByScore() {

@@ -52,9 +52,12 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         OnSwitch controlPasses = OnSwitch.off();
         OnSwitch requiresRerack = OnSwitch.off();
 
+        int pointsBefore = participant.getPoints();
         int pocketedBalls = rack.getCurrentNumberOfBalls() - event.getNumberOfRemainingBalls();
         if( pocketedBalls > 0 ) {
-            participant.getInningOrNew().addPoints( pocketedBalls );
+            int cappedPoints = Math.min( pocketedBalls, pointsToWin - pointsBefore );
+
+            participant.getInningOrNew().addPoints( cappedPoints );
             participant.resetConsecutiveFouls();
         }
 

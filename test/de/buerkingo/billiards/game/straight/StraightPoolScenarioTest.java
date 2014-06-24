@@ -165,7 +165,8 @@ public class StraightPoolScenarioTest extends ScenarioTest<GivenStraightPool<?>,
         then().the_game_is_not_over();
 
         when().$_finishes_with_$_balls_left_on_the_table( JACK, 15 ).processEvent();
-        then().$_wins_the_game( JACK );
+        then().$_wins_the_game( JACK )
+            .and().$_has_$_points( JACK, 5 );
     }
 
     @Test

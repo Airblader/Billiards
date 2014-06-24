@@ -72,9 +72,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
                 requiresRerack.on();
                 break;
             default:
-                if( !requiresRerack.get() ) {
-                    controlPasses.on();
-                }
+                controlPasses.on();
         }
 
         if( foul.isPresent() ) {

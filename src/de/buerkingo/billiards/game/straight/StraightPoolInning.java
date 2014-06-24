@@ -38,10 +38,6 @@ public class StraightPoolInning implements Serializable {
         return this;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
     public boolean endedWithSafety() {
         return endedWithSafety;
     }

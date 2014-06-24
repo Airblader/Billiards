@@ -59,10 +59,6 @@ public class StraightPoolParticipant implements Participant, Serializable {
         return Iterables.getLast( innings );
     }
 
-    public StraightPoolInning getInning( int number ) {
-        return Iterables.get( innings, number - 1, null );
-    }
-
     public StraightPoolParticipant increaseConsecutiveFouls() {
         consecutiveFouls++;
         return this;

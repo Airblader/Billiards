@@ -21,7 +21,7 @@ import de.buerkingo.billiards.util.reject.Reject;
 /**
  * Manages a game of straight pool.
  */
-public class StraightPoolGame implements Game<StraightPoolParticipant, StraightPoolRack, StraightPoolState>, Serializable {
+public class StraightPoolGame implements Game<StraightPoolParticipant, StraightPoolRack, StraightPoolWinner>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         this.inningsLimit = inningsLimit;
     }
 
-    public Optional<StraightPoolState> processEvents( StraightPoolEvent event, Optional<? extends Foul> foul ) {
+    public Optional<StraightPoolWinner> processEvents( StraightPoolEvent event, Optional<? extends Foul> foul ) {
         Reject.ifNull( event );
         Reject.ifNull( foul );
         Reject.ifGreaterThan( "there cannot be more balls left than before",
@@ -108,7 +108,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
 
         if( gameHasEnded() ) {
             gameOver.on();
-            return Optional.of( new StraightPoolState( getLeadersByScore() ) );
+            return Optional.of( new StraightPoolWinner( getLeadersByScore() ) );
         }
 
         if( controlPasses.get() ) {

@@ -23,7 +23,7 @@ public class WhenStraightPool<SELF extends WhenStraightPool<?>> extends Stage<SE
     public Map<String, StraightPoolParticipant> participants;
 
     @ProvidedScenarioState
-    public Optional<StraightPoolState> state;
+    public Optional<StraightPoolWinner> state;
 
     private StraightPoolEvent event;
     private Optional<? extends Foul> foul = Optional.absent();

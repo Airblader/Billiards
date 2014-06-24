@@ -19,7 +19,7 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
     public Map<String, StraightPoolParticipant> participants;
 
     @ExpectedScenarioState
-    public Optional<StraightPoolState> state;
+    public Optional<StraightPoolWinner> state;
 
     public SELF $_is_still_at_the_table( String name ) {
         return control_passes_to( name );
@@ -70,7 +70,7 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
     public SELF the_game_ends_with_a_draw() {
         rejectIfThereIsNoState();
         assertThat( state.isPresent() ).isTrue();
-        assertThat( state.get().getWinners() ).hasSize( 2 );
+        assertThat( state.get().hasDrawed() ).isTrue();
 
         return self();
     }
@@ -78,8 +78,8 @@ public class ThenStraightPool<SELF extends ThenStraightPool<?>> extends Stage<SE
     public SELF $_wins_the_game( String name ) {
         rejectIfThereIsNoState();
         assertThat( state.isPresent() ).isTrue();
-        assertThat( state.get().getWinners() ).hasSize( 1 );
-        assertThat( state.get().getWinners().get( 0 ) ).isEqualTo( participants.get( name ) );
+        assertThat( state.get().hasDrawed() ).isFalse();
+        assertThat( state.get().getWinner() ).isEqualTo( participants.get( name ) );
 
         return self();
     }

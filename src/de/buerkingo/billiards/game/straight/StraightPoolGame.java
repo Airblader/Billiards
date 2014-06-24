@@ -116,7 +116,7 @@ public class StraightPoolGame implements Game<StraightPoolParticipant, StraightP
         }
 
         rack.setCurrentNumberOfBalls( requiresRerack.get() ? NUMBER_OF_BALLS : event.getNumberOfRemainingBalls() );
-        return new StraightPoolState( participant, requiresRerack.get() );
+        return new StraightPoolState();
     }
 
     private List<StraightPoolParticipant> getLeadersByScore() {

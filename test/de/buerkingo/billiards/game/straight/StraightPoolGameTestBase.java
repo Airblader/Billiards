@@ -23,7 +23,7 @@ public class StraightPoolGameTestBase {
         Builder gameBuilder = StraightPoolGame.builder()
             .withPointsToWin( pointsToWin );
         if( maxInnings.isPresent() ) {
-            gameBuilder.withMaxInnings( maxInnings.get() );
+            gameBuilder.withInningsLimit( maxInnings.get(), Optional.<Integer>absent() );
         }
 
         StraightPoolGame game = gameBuilder.get();
